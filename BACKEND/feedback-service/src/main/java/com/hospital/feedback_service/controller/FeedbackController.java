@@ -1,5 +1,6 @@
 package com.hospital.feedback_service.controller;
 
+import com.hospital.feedback_service.dto.FeedbackResponseDTO;
 import com.hospital.feedback_service.model.Feedback;
 import com.hospital.feedback_service.service.FeedbackService;
 import org.springframework.web.bind.annotation.*;
@@ -25,13 +26,13 @@ public class FeedbackController {
 
 
     @GetMapping
-    public List<Feedback> getAll() {
-        return service.getAllFeedbacks();
+    public List<FeedbackResponseDTO> getAll() {
+        return service.getAllFeedbacksWithDetails();
     }
 
 
     @GetMapping("/{id}")
-    public Feedback getById(@PathVariable Long id) {
+    public FeedbackResponseDTO getFeedback(@PathVariable Long id) {
         return service.getFeedbackById(id);
     }
 
