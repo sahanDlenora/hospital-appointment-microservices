@@ -5,6 +5,7 @@ import com.hospital.feedback_service.client.PatientClient;
 import com.hospital.feedback_service.dto.DoctorDTO;
 import com.hospital.feedback_service.dto.FeedbackResponseDTO;
 import com.hospital.feedback_service.dto.PatientDTO;
+import com.hospital.feedback_service.exception.ResourceNotFoundException;
 import com.hospital.feedback_service.model.Feedback;
 import com.hospital.feedback_service.repository.FeedbackRepository;
 import org.springframework.stereotype.Service;
@@ -60,7 +61,10 @@ public class FeedbackServiceImpl implements FeedbackService{
     public FeedbackResponseDTO getFeedbackById(Long id) {
 
         Feedback feedback = feedbackRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Feedback not found"));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Feedback not found with id: " + id)
+                );
+
 
         PatientDTO patient = patientClient.getPatientById(feedback.getPatientId());
         DoctorDTO doctor = doctorClient.getDoctorById(feedback.getDoctorId());
@@ -80,7 +84,10 @@ public class FeedbackServiceImpl implements FeedbackService{
     public Feedback updateFeedback(Long id, Feedback feedback) {
 
         Feedback existing = feedbackRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Feedback not found"));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Feedback not found with id: " + id)
+                );
+
 
         existing.setRating(feedback.getRating());
         existing.setComment(feedback.getComment());
@@ -91,7 +98,13 @@ public class FeedbackServiceImpl implements FeedbackService{
 
     @Override
     public void deleteFeedback(Long id) {
-        feedbackRepository.deleteById(id);
+
+        Feedback existing = feedbackRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Feedback not found with id: " + id)
+                );
+
+        feedbackRepository.delete(existing);
     }
 
 }
