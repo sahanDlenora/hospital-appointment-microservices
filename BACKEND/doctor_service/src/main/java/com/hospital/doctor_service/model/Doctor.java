@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-
 public class Doctor {
 
     @Id
@@ -22,6 +21,9 @@ public class Doctor {
 
     private String phone;
 
+    public Doctor() {
+    }
+
     public Doctor(Long doctorId, String name, String specialization, String email, String phone) {
         this.doctorId = doctorId;
         this.name = name;
@@ -29,6 +31,7 @@ public class Doctor {
         this.email = email;
         this.phone = phone;
     }
+
 
 
 

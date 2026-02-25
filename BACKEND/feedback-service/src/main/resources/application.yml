@@ -1,0 +1,24 @@
+server:
+  port: 8080   # choose a free port
+
+spring:
+  application:
+    name: feedback-service
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/feedback_db
+    username: root
+    password: Lenovo1234#
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
