@@ -20,20 +20,28 @@ public class Doctor {
     private String email;
 
     private String phone;
+    private Long departmentId; // reference to Department Service
 
     public Doctor() {
     }
 
-    public Doctor(Long doctorId, String name, String specialization, String email, String phone) {
+    public Doctor(Long doctorId, String name, String specialization, String email, String phone,Long departmentId) {
         this.doctorId = doctorId;
         this.name = name;
         this.specialization = specialization;
         this.email = email;
         this.phone = phone;
+        this.departmentId = departmentId;
     }
 
 
+    public Long getDepartmentId() {
+        return departmentId;
+    }
 
+    public void setDepartmentId(Long departmentId) {
+        this.departmentId = departmentId;
+    }
 
     public Long getDoctorId() {
         return doctorId;
@@ -75,6 +83,7 @@ public class Doctor {
         this.phone = phone;
     }
 
+
     @Override
     public String toString() {
         return "Doctor{" +
@@ -83,6 +92,9 @@ public class Doctor {
                 ", specialization='" + specialization + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
+                ", departmentId=" + departmentId +
                 '}';
     }
+
+
 }
