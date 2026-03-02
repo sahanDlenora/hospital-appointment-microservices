@@ -3,9 +3,9 @@ spring:
     name: department-service
 
   datasource:
-    url: jdbc:mysql://localhost:3306/hospital_db
+    url: jdbc:mysql://localhost:3306/department_db
     username: root
-    password: 1234
+    password: Lenovo1234#
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
