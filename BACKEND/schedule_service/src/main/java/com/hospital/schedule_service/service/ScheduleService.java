@@ -4,7 +4,11 @@ import com.hospital.schedule_service.dto.ResponseDTO;
 import com.hospital.schedule_service.dto.ScheduleDTO;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+
 public interface ScheduleService {
-//    public ResponseEntity<ResponseDTO> saveSchedule(ScheduleDTO scheduleDTO);
-    public ResponseDTO saveSchedule(ScheduleDTO scheduleDTO);
+    ResponseDTO saveSchedule(ScheduleDTO scheduleDTO);
+    List<ScheduleDTO> getAllSchedules();
+    ResponseDTO updateSchedule(int id, ScheduleDTO scheduleDTO);
+    ResponseDTO deleteSchedule(int id);
 }

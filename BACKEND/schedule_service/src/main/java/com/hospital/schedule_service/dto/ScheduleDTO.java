@@ -11,7 +11,8 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ScheduleDTO {
-    private int doctorId;
+    private Integer id;
+    private Integer doctorId;
     private LocalDate date;
     private LocalTime startTime;
     private LocalTime endTime;

@@ -18,9 +18,9 @@ import java.time.LocalTime;
 public class Schedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
-    private int doctorId;
+    private Integer doctorId;
     private LocalDate date;
     private LocalTime startTime;
     private LocalTime endTime;

@@ -11,6 +11,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 @Slf4j
 @Service
 public class ScheduleServiceImpl implements ScheduleService {
@@ -42,6 +46,65 @@ public class ScheduleServiceImpl implements ScheduleService {
             return responseDTO;
         }
 
+    }
+
+    @Override
+    public List<ScheduleDTO> getAllSchedules() {
+        List<ScheduleDTO> scheduleList = new ArrayList<>();
+        List<Schedule> all = scheduleRepository.findAll();
+        all.stream().forEach(data->{
+            ScheduleDTO scheduleDTO = new ScheduleDTO();
+            scheduleDTO.setId(data.getId());
+            scheduleDTO.setDoctorId(data.getDoctorId());
+            scheduleDTO.setDate(data.getDate());
+            scheduleDTO.setStartTime(data.getStartTime());
+            scheduleDTO.setEndTime(data.getEndTime());
+            scheduleList.add(scheduleDTO);
+        });
+        return scheduleList;
+    }
+
+    @Override
+    public ResponseDTO updateSchedule(int id, ScheduleDTO scheduleDTO) {
+        ResponseDTO responseDTO = new ResponseDTO();
+
+        Optional<Schedule> optionalSchedule = scheduleRepository.findById(id);
+
+        if (optionalSchedule.isPresent()) {
+            Schedule schedule = optionalSchedule.get();
+
+            schedule.setDoctorId(scheduleDTO.getDoctorId());
+            schedule.setDate(scheduleDTO.getDate());
+            schedule.setStartTime(scheduleDTO.getStartTime());
+            schedule.setEndTime(scheduleDTO.getEndTime());
+
+            scheduleRepository.save(schedule);
+
+            responseDTO.setMessage("Schedule updated successfully");
+            responseDTO.setStatus(String.valueOf(HttpStatus.OK));
+            responseDTO.setData(scheduleDTO);
+        } else {
+            responseDTO.setMessage("Schedule not found");
+            responseDTO.setStatus(String.valueOf(HttpStatus.NOT_FOUND));
+        }
+
+        return responseDTO;
+    }
+
+    @Override
+    public ResponseDTO deleteSchedule(int id) {
+        ResponseDTO responseDTO = new ResponseDTO();
+
+        if (scheduleRepository.existsById(id)) {
+            scheduleRepository.deleteById(id);
+            responseDTO.setMessage("Schedule deleted successfully");
+            responseDTO.setStatus(String.valueOf(HttpStatus.OK));
+        } else {
+            responseDTO.setMessage("Schedule not found");
+            responseDTO.setStatus(String.valueOf(HttpStatus.NOT_FOUND));
+        }
+
+        return responseDTO;
     }
 
 

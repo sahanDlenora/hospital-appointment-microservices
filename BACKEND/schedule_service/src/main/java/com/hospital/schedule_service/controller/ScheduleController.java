@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin
 @RequestMapping("/schedules")
@@ -16,12 +18,25 @@ public class ScheduleController {
     private ScheduleService scheduleService;
 
     @PostMapping("/save")
-    public ResponseDTO saveSchedule(ScheduleDTO scheduleDTO) {
+    public ResponseDTO saveSchedule(@RequestBody ScheduleDTO scheduleDTO) {
+
         return scheduleService.saveSchedule(scheduleDTO);
     }
 
-//    @PostMapping("save")
-//    public ResponseEntity<ResponseDTO> saveSchedules(@RequestBody ScheduleDTO scheduleDTO) {
-//        return scheduleService.saveSchedule(scheduleDTO);
-//    }
+    @GetMapping("/get")
+    public List<ScheduleDTO> getAllSchedules() {
+        return scheduleService.getAllSchedules();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseDTO updateSchedule(@PathVariable int id,
+                                      @RequestBody ScheduleDTO scheduleDTO) {
+        return scheduleService.updateSchedule(id, scheduleDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseDTO deleteSchedule(@PathVariable int id) {
+        return scheduleService.deleteSchedule(id);
+    }
+
 }
