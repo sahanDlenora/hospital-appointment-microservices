@@ -11,5 +11,5 @@ public interface DepartmentClient {
 
     // Get department details by department ID from department-service
     @GetMapping("/api/departments/{id}")
-    DepartmentDTO getDepartmentById(@PathVariable Long id);
+    DepartmentDTO getDepartmentById(@PathVariable("id") Long id);
 }

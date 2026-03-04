@@ -2,6 +2,7 @@ package com.hospital.demo.controller;
 
 import java.util.List;
 
+import com.hospital.demo.util.RoleUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,12 @@ public class DepartmentController {
 
     // CREATE
     @PostMapping
-    public ResponseEntity<Department> saveDepartment(@RequestBody Department department){
+    public ResponseEntity<Department> saveDepartment(
+            @RequestBody Department department,
+            @RequestHeader("role") String role){
+
+        RoleUtil.checkAdmin(role);
+
         return ResponseEntity.ok(service.saveDepartment(department));
     }
 
@@ -36,15 +42,26 @@ public class DepartmentController {
 
     // UPDATE
     @PutMapping("/{id}")
-    public ResponseEntity<Department> updateDepartment(@PathVariable Long id,
-                                                       @RequestBody Department department){
+    public ResponseEntity<Department> updateDepartment(
+            @PathVariable Long id,
+            @RequestBody Department department,
+            @RequestHeader("role") String role){
+
+        RoleUtil.checkAdmin(role);
+
         return ResponseEntity.ok(service.updateDepartment(id, department));
     }
 
     // DELETE
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteDepartment(@PathVariable Long id){
+    public ResponseEntity<String> deleteDepartment(
+            @PathVariable Long id,
+            @RequestHeader("role") String role){
+
+        RoleUtil.checkAdmin(role);
+
         service.deleteDepartment(id);
+
         return ResponseEntity.ok("Department deleted successfully");
     }
 }

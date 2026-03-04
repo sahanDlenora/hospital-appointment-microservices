@@ -31,6 +31,7 @@
 		<spring-cloud.version>2023.0.1</spring-cloud.version>
 	</properties>
 	<dependencies>
+		<!-- Spring Gateway & Eureka -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-gateway</artifactId>
@@ -40,6 +41,31 @@
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
 
+		<!-- Spring Security -->
+
+
+		<!-- JWT parsing -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-api</artifactId>
+			<version>0.12.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-impl</artifactId>
+			<version>0.12.3</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-jackson</artifactId>
+			<version>0.12.3</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- Testing -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -50,7 +76,9 @@
 			<artifactId>reactor-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 	</dependencies>
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>

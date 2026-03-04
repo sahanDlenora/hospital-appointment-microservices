@@ -8,6 +8,8 @@ spring:
   cloud:
     gateway:
       routes:
+
+
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
@@ -23,7 +25,22 @@ spring:
           predicates:
             - Path=/feedbacks/**
 
+        - id: department-service
+          uri: lb://DEPARTMENT-SERVICE
+          predicates:
+            - Path=/api/departments/**
+
+        - id: auth-service
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/auth/**
+
+
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
+
+jwt:
+  secret: nXGv6WQmZc7y1q3lV2t9Rk8pHs4aYd0uJfL5sB2cT8E=
+
