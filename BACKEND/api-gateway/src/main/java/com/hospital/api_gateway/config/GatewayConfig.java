@@ -32,6 +32,11 @@ public class GatewayConfig {
                         .filters(f -> f.filter(jwtFilter))
                         .uri("lb://FEEDBACK-SERVICE"))
 
+                // Department service route with JWT filter
+                .route("department-service", r -> r.path("/api/departments/**")
+                        .filters(f -> f.filter(jwtFilter))
+                        .uri("lb://DEPARTMENT-SERVICE"))
+
                 // Auth service route (no JWT filter)
                 .route("auth-service", r -> r.path("/auth/**")
                         .uri("lb://AUTH-SERVICE"))

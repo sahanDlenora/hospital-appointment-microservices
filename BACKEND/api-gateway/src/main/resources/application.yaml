@@ -25,6 +25,11 @@ spring:
           predicates:
             - Path=/feedbacks/**
 
+        - id: department-service
+          uri: lb://DEPARTMENT-SERVICE
+          predicates:
+            - Path=/api/departments/**
+
         - id: auth-service
           uri: lb://AUTH-SERVICE
           predicates:

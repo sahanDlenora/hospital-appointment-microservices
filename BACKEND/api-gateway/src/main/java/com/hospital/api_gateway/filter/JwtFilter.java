@@ -32,34 +32,46 @@ public class JwtFilter implements GatewayFilter {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 
+        String path = exchange.getRequest().getPath().toString();
+
         // Allow /auth/** without token
-        if (exchange.getRequest().getPath().toString().contains("/auth/")) {
+        if (path.startsWith("/auth/")) {
             return chain.filter(exchange);
         }
 
-        // Get Authorization header
-        String authHeader = exchange.getRequest().getHeaders().getFirst("Authorization");
+        String authHeader = exchange.getRequest()
+                .getHeaders()
+                .getFirst("Authorization");
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            exchange.getResponse().setStatusCode(org.springframework.http.HttpStatus.UNAUTHORIZED);
+            exchange.getResponse()
+                    .setStatusCode(org.springframework.http.HttpStatus.UNAUTHORIZED);
             return exchange.getResponse().setComplete();
         }
 
         try {
             String token = authHeader.substring(7);
+
             Claims claims = Jwts.parser()
                     .verifyWith(getKey())
                     .build()
                     .parseSignedClaims(token)
                     .getPayload();
 
-            // Add user info to headers if needed
-            exchange.getRequest().mutate()
-                    .header("userId", claims.getSubject())
+            String userId = claims.getSubject();
+            String role = claims.get("role", String.class);
+
+            exchange = exchange.mutate()
+                    .request(exchange.getRequest()
+                            .mutate()
+                            .header("userId", userId)
+                            .header("role", role)
+                            .build())
                     .build();
 
         } catch (Exception e) {
-            exchange.getResponse().setStatusCode(org.springframework.http.HttpStatus.UNAUTHORIZED);
+            exchange.getResponse()
+                    .setStatusCode(org.springframework.http.HttpStatus.UNAUTHORIZED);
             return exchange.getResponse().setComplete();
         }
 
