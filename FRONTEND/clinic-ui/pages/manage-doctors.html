@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Doctors - ClinicCare</title>
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <div class="app-layout">
+        <!-- Sidebar -->
+        <div id="sidebar"></div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div id="navbar"></div>
+
+            <div class="content-area">
+                <main class="container p-0">
+                    <div class="page-header">
+                        <div>
+                            <h2>Doctor Directory</h2>
+                            <p class="text-muted mt-1">Manage specialist profiles and assignments.</p>
+                        </div>
+                        <button class="btn btn-primary"
+                            onclick="document.getElementById('add-doctor-card').style.display='block'">
+                            <i>+</i> Add New Doctor
+                        </button>
+                    </div>
+
+                    <div id="add-doctor-card" class="card mb-3"
+                        style="display: none; border-top: 4px solid var(--primary);">
+                        <div class="flex justify-between items-center mb-3">
+                            <h3 style="margin: 0;">Add New Doctor</h3>
+                            <button class="btn btn-outline" style="padding: 0.2rem 0.5rem; border: none;"
+                                onclick="document.getElementById('add-doctor-card').style.display='none'">✕</button>
+                        </div>
+                        <form>
+                            <div class="flex gap-3 mb-3" style="flex-wrap: wrap;">
+                                <div class="form-group" style="flex: 1; min-width: 200px; margin-bottom: 0;">
+                                    <label for="doctor-name">Full Name</label>
+                                    <input type="text" id="doctor-name" class="form-control"
+                                        placeholder="Dr. Firstname Lastname">
+                                </div>
+                                <div class="form-group" style="flex: 1; min-width: 200px; margin-bottom: 0;">
+                                    <label for="specialization">Specialization</label>
+                                    <input type="text" id="specialization" class="form-control"
+                                        placeholder="e.g. Cardiologist">
+                                </div>
+                                <div class="form-group" style="flex: 1; min-width: 200px; margin-bottom: 0;">
+                                    <label for="department">Department</label>
+                                    <select id="department" class="form-control">
+                                        <option value="" disabled selected>Select Department</option>
+                                        <option value="cardiology">Cardiology</option>
+                                        <option value="neurology">Neurology</option>
+                                        <option value="pediatrics">Pediatrics</option>
+                                        <option value="orthopedics">Orthopedics</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="text-right mt-3">
+                                <button type="button" class="btn btn-primary">Save Doctor Profile</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Doctor Profile</th>
+                                    <th>Specialization</th>
+                                    <th>Department</th>
+                                    <th style="text-align: right;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="flex items-center gap-3">
+                                            <div class="avatar" style="width: 36px; height: 36px; font-size: 0.9rem;">SJ
+                                            </div>
+                                            <strong>Dr. Sarah Jenkins</strong>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge badge-neutral">Pediatrician</span></td>
+                                    <td class="text-main">Pediatrics</td>
+                                    <td style="text-align: right;">
+                                        <div class="flex gap-2" style="justify-content: flex-end;">
+                                            <button class="btn btn-outline"
+                                                style="padding: 0.35rem 0.75rem; font-size: 0.85rem;">Edit</button>
+                                            <button class="btn btn-danger"
+                                                style="padding: 0.35rem 0.75rem; font-size: 0.85rem;">Delete</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="flex items-center gap-3">
+                                            <div class="avatar"
+                                                style="width: 36px; height: 36px; font-size: 0.9rem; background: var(--success); color: white; border: none;">
+                                                MC</div>
+                                            <strong>Dr. Michael Chen</strong>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge badge-neutral">Cardiologist</span></td>
+                                    <td class="text-main">Cardiology</td>
+                                    <td style="text-align: right;">
+                                        <div class="flex gap-2" style="justify-content: flex-end;">
+                                            <button class="btn btn-outline"
+                                                style="padding: 0.35rem 0.75rem; font-size: 0.85rem;">Edit</button>
+                                            <button class="btn btn-danger"
+                                                style="padding: 0.35rem 0.75rem; font-size: 0.85rem;">Delete</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="flex items-center gap-3">
+                                            <div class="avatar"
+                                                style="width: 36px; height: 36px; font-size: 0.9rem; background: var(--warning); color: white; border: none;">
+                                                EB</div>
+                                            <strong>Dr. Emily Brown</strong>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge badge-neutral">Neurologist</span></td>
+                                    <td class="text-main">Neurology</td>
+                                    <td style="text-align: right;">
+                                        <div class="flex gap-2" style="justify-content: flex-end;">
+                                            <button class="btn btn-outline"
+                                                style="padding: 0.35rem 0.75rem; font-size: 0.85rem;">Edit</button>
+                                            <button class="btn btn-danger"
+                                                style="padding: 0.35rem 0.75rem; font-size: 0.85rem;">Delete</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </main>
+            </div>
+            <div id="footer"></div>
+        </main>
+    </div>
+    <script src="../js/layout.js"></script>
+    <script src="../js/dashboard.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Departments - ClinicCare</title>
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <div class="app-layout">
+        <!-- Sidebar -->
+        <div id="sidebar"></div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div id="navbar"></div>
+
+            <div class="content-area">
+                <main class="container p-0">
+                    <div class="page-header">
+                        <div>
+                            <h2>Department List</h2>
+                            <p class="text-muted mt-1">Configure clinical sectors.</p>
+                        </div>
+                        <button class="btn btn-primary"
+                            onclick="document.getElementById('add-dept-card').style.display='block'">
+                            <i>+</i> Add Department
+                        </button>
+                    </div>
+
+                    <div id="add-dept-card" class="card mb-3"
+                        style="display: none; border-top: 4px solid var(--primary);">
+                        <div class="flex justify-between items-center mb-3">
+                            <h3 style="margin: 0;">Add New Department</h3>
+                            <button class="btn btn-outline" style="padding: 0.2rem 0.5rem; border: none;"
+                                onclick="document.getElementById('add-dept-card').style.display='none'">✕</button>
+                        </div>
+                        <form>
+                            <div class="flex gap-3 mb-3 items-end" style="flex-wrap: wrap;">
+                                <div class="form-group" style="flex: 1; min-width: 200px; margin-bottom: 0;">
+                                    <label for="dept-name">Department Name</label>
+                                    <input type="text" id="dept-name" class="form-control" placeholder="e.g. Cardiology"
+                                        required>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-primary"
+                                        style="padding: 0.75rem 1.5rem;">Save</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Department ID</th>
+                                    <th>Department Name</th>
+                                    <th style="text-align: right;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="badge badge-neutral">DEP-001</span></td>
+                                    <td><strong class="text-main" style="font-size: 1.1rem;">Cardiology ❤️</strong></td>
+                                    <td style="text-align: right;">
+                                        <div class="flex gap-2" style="justify-content: flex-end;">
+                                            <button class="btn btn-outline"
+                                                style="padding: 0.35rem 0.75rem; font-size: 0.85rem;">Edit</button>
+                                            <button class="btn btn-danger"
+                                                style="padding: 0.35rem 0.75rem; font-size: 0.85rem;">Delete</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-neutral">DEP-002</span></td>
+                                    <td><strong class="text-main" style="font-size: 1.1rem;">Neurology 🧠</strong></td>
+                                    <td style="text-align: right;">
+                                        <div class="flex gap-2" style="justify-content: flex-end;">
+                                            <button class="btn btn-outline"
+                                                style="padding: 0.35rem 0.75rem; font-size: 0.85rem;">Edit</button>
+                                            <button class="btn btn-danger"
+                                                style="padding: 0.35rem 0.75rem; font-size: 0.85rem;">Delete</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-neutral">DEP-003</span></td>
+                                    <td><strong class="text-main" style="font-size: 1.1rem;">Pediatrics 🧸</strong></td>
+                                    <td style="text-align: right;">
+                                        <div class="flex gap-2" style="justify-content: flex-end;">
+                                            <button class="btn btn-outline"
+                                                style="padding: 0.35rem 0.75rem; font-size: 0.85rem;">Edit</button>
+                                            <button class="btn btn-danger"
+                                                style="padding: 0.35rem 0.75rem; font-size: 0.85rem;">Delete</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-neutral">DEP-004</span></td>
+                                    <td><strong class="text-main" style="font-size: 1.1rem;">Orthopedics 🦴</strong>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <div class="flex gap-2" style="justify-content: flex-end;">
+                                            <button class="btn btn-outline"
+                                                style="padding: 0.35rem 0.75rem; font-size: 0.85rem;">Edit</button>
+                                            <button class="btn btn-danger"
+                                                style="padding: 0.35rem 0.75rem; font-size: 0.85rem;">Delete</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </main>
+            </div>
+            <div id="footer"></div>
+        </main>
+    </div>
+    <script src="../js/layout.js"></script>
+    <script src="../js/dashboard.js"></script>
+</body>
+
+</html>

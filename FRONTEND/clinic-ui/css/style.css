@@ -1,0 +1,107 @@
+/* 
+  ClinicCare 2026 - Modern UI Overhaul
+  This file imports and builds upon layout.css for specific page styles.
+  Most shared components and variables are defined in layout.css.
+*/
+
+@import url('layout.css');
+
+/* Specialized Component Styles (if any not covered by layout.css) */
+
+
+/* Rating Stars */
+.rating-stars {
+  color: #FBBF24;
+  /* Yellow-400 */
+  font-size: 1.25rem;
+  letter-spacing: 2px;
+}
+
+/* Appointments specific styles */
+.appointment-card {
+  border-left: 4px solid var(--primary);
+  background-color: #F8FAFC;
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  transition: var(--transition-normal);
+}
+
+.appointment-card:hover {
+  background-color: var(--primary-light);
+  transform: translateX(4px);
+}
+
+.appointment-card.past {
+  border-left-color: var(--secondary);
+}
+
+.appointment-card.past:hover {
+  background-color: #F1F5F9;
+}
+
+.appointment-card h4 {
+  margin-bottom: 0.5rem;
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+.appointment-card p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Auth Links */
+.auth-links {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.auth-links a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: var(--transition-fast);
+}
+
+.auth-links a:hover {
+  color: var(--primary-hover);
+  text-decoration: underline;
+}
+
+/* Profile Image or Avatar Placeholder */
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  background: var(--primary-light);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1.25rem;
+  border: 2px solid white;
+  box-shadow: var(--shadow-sm);
+}
+
+.user-snippet {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-snippet-info h4 {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--text-main);
+}
+
+.user-snippet-info p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}

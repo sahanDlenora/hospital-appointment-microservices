@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Schedule - ClinicCare</title>
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body class="patient-layout">
+    <div class="app-layout">
+        <div id="sidebar"></div>
+        <div class="main-content">
+            <!-- Navbar -->
+            <div id="navbar"></div>
+            <div class="content-area">
+
+                <!-- Main Content -->
+                <main class="container p-0">
+                    <div class="page-header">
+                        <div>
+                            <a href="view-doctors.html" class="text-muted"
+                                style="margin-bottom: 0.5rem; display: inline-block; font-size: 0.9rem; text-decoration: none;">←
+                                Back to Doctors</a>
+                            <h2>Weekly Schedule</h2>
+                            <p class="text-muted mt-1">
+                                <strong class="text-main">Dr. Michael Chen</strong> • Cardiology Department
+                            </p>
+                        </div>
+                        <a href="book-appointment.html?doc=1" class="btn btn-primary">Book Appointment</a>
+                    </div>
+
+                    <div class="card mt-3">
+                        <div class="table-container mt-2">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Day of Week</th>
+                                        <th>Available Time Slots</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="width: 200px;"><strong class="text-main"
+                                                style="font-size: 1.05rem;">Monday</strong></td>
+                                        <td>
+                                            <div class="flex gap-2" style="flex-wrap: wrap;">
+                                                <span class="badge badge-info"
+                                                    style="font-size: 0.9rem; padding: 0.5rem 1rem;">09:00 AM</span>
+                                                <span class="badge badge-info"
+                                                    style="font-size: 0.9rem; padding: 0.5rem 1rem;">09:30 AM</span>
+                                                <span class="badge badge-danger"
+                                                    style="font-size: 0.9rem; padding: 0.5rem 1rem; text-decoration: line-through; opacity: 0.7;">10:00
+                                                    AM (Booked)</span>
+                                                <span class="badge badge-info"
+                                                    style="font-size: 0.9rem; padding: 0.5rem 1rem;">10:30 AM</span>
+                                                <span class="badge badge-info"
+                                                    style="font-size: 0.9rem; padding: 0.5rem 1rem;">11:00 AM</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong class="text-main" style="font-size: 1.05rem;">Wednesday</strong>
+                                        </td>
+                                        <td>
+                                            <div class="flex gap-2" style="flex-wrap: wrap;">
+                                                <span class="badge badge-info"
+                                                    style="font-size: 0.9rem; padding: 0.5rem 1rem;">02:00 PM</span>
+                                                <span class="badge badge-info"
+                                                    style="font-size: 0.9rem; padding: 0.5rem 1rem;">02:30 PM</span>
+                                                <span class="badge badge-info"
+                                                    style="font-size: 0.9rem; padding: 0.5rem 1rem;">03:00 PM</span>
+                                                <span class="badge badge-danger"
+                                                    style="font-size: 0.9rem; padding: 0.5rem 1rem; text-decoration: line-through; opacity: 0.7;">03:30
+                                                    PM (Booked)</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong class="text-muted" style="font-size: 1.05rem;">Friday</strong></td>
+                                        <td>
+                                            <span class="text-muted italic">No availability on this day.</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </main>
+                <div id="footer"></div>
+            </div>
+        </div>
+    </div>
+    <script src="../js/layout.js"></script>
+    <script src="../js/dashboard.js"></script>
+</body>
+
+</html>

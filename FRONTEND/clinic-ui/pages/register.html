@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - ClinicCare</title>
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <div class="auth-container">
+        <div class="card auth-card" style="max-width: 500px;">
+            <div class="text-center mb-3">
+                <div class="avatar mx-auto mb-2"
+                    style="width: 60px; height: 60px; background: var(--primary-light); font-size: 1.5rem;">C</div>
+                <h2 class="auth-title">Create an Account</h2>
+                <p class="text-muted">Join ClinicCare as a new patient</p>
+            </div>
+
+            <form action="login.html">
+                <div class="form-group">
+                    <label for="fullname">Full Name</label>
+                    <input type="text" id="fullname" class="form-control" placeholder="John Doe" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" class="form-control" placeholder="name@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" class="form-control" placeholder="(555) 123-4567" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" class="form-control" placeholder="••••••••" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-password">Confirm Password</label>
+                        <input type="password" id="confirm-password" class="form-control" placeholder="••••••••"
+                            required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary"
+                    style="width: 100%; padding: 0.75rem; margin-top: 0.5rem;">Create Account</button>
+
+                <div class="auth-links mt-3 text-center">
+                    <p class="text-muted">Already have an account? <a href="login.html" class="text-primary font-500"
+                            style="text-decoration: none;">Sign in</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Appointments - ClinicCare</title>
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <div class="app-layout">
+        <div id="sidebar"></div>
+        <div class="main-content">
+            <div id="navbar"></div>
+
+            <div class="content-area">
+                <main class="container p-0">
+                    <div class="page-header">
+                        <div>
+                            <h2>My Appointments</h2>
+                            <p class="text-muted mt-1">View your schedule and manage your health timeline.</p>
+                        </div>
+                        <a href="book-appointment.html" class="btn btn-primary">
+                            <i>+</i> Book New Appointment
+                        </a>
+                    </div>
+
+                    <div class="table-container mt-3">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Doctor</th>
+                                    <th>Department</th>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="flex items-center gap-2">
+                                            <div class="avatar" style="width: 32px; height: 32px; font-size: 12px;">MC
+                                            </div>
+                                            <strong>Dr. Michael Chen</strong>
+                                        </div>
+                                    </td>
+                                    <td><span class="text-muted">Cardiology</span></td>
+                                    <td class="font-500">March 15, 2026</td>
+                                    <td>10:00 AM</td>
+                                    <td><span class="badge badge-success">Confirmed</span></td>
+                                    <td>
+                                        <button class="btn btn-danger"
+                                            style="padding: 0.35rem 0.75rem; font-size: 0.85rem;">Cancel</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="flex items-center gap-2">
+                                            <div class="avatar"
+                                                style="width: 32px; height: 32px; font-size: 12px; background: var(--secondary); border:none;">
+                                                SJ</div>
+                                            <strong>Dr. Sarah Jenkins</strong>
+                                        </div>
+                                    </td>
+                                    <td><span class="text-muted">Pediatrics</span></td>
+                                    <td class="font-500 text-muted">February 10, 2026</td>
+                                    <td class="text-muted">11:30 AM</td>
+                                    <td><span class="badge badge-neutral">Completed</span></td>
+                                    <td>
+                                        <a href="feedback.html?doc=2" class="btn btn-outline"
+                                            style="padding: 0.35rem 0.75rem; font-size: 0.85rem; border-color: var(--warning); color: var(--warning);">
+                                            <i>⭐</i> Leave Feedback
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </main>
+            </div>
+            <div id="footer"></div>
+        </div>
+    </div>
+    <script src="../js/layout.js"></script>
+    <script src="../js/dashboard.js"></script>
+</body>
+
+</html>
