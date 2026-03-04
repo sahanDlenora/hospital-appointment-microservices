@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - ClinicCare</title>
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <div class="app-layout">
+        <!-- Sidebar -->
+        <div id="sidebar"></div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div id="navbar"></div>
+
+            <div class="content-area">
+                <div class="page-header">
+                    <div>
+                        <h2>Admin Overview</h2>
+                        <p class="text-muted mt-1">Monitor clinic operations and patient flow.</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="stat-card" style="border-top-color: var(--primary);">
+                        <h3 class="text-muted" style="font-size: 0.9rem; text-transform: uppercase;">Total Patients</h3>
+                        <p class="text-main" style="font-size: 2.2rem; font-weight: 700;">1,245</p>
+                        <span class="badge badge-success mt-1">+12% this week</span>
+                    </div>
+
+                    <div class="stat-card" style="border-top-color: var(--success);">
+                        <h3 class="text-muted" style="font-size: 0.9rem; text-transform: uppercase;">Total Doctors</h3>
+                        <p class="text-main" style="font-size: 2.2rem; font-weight: 700;">48</p>
+                        <span class="text-muted mt-1" style="font-size: 0.85rem;">Across 12 departments</span>
+                    </div>
+
+                    <div class="stat-card" style="border-top-color: var(--warning);">
+                        <h3 class="text-muted" style="font-size: 0.9rem; text-transform: uppercase;">Appointments</h3>
+                        <p class="text-main" style="font-size: 2.2rem; font-weight: 700;">356</p>
+                        <span class="badge badge-warning mt-1">Requires attention: 5</span>
+                    </div>
+
+                    <div class="stat-card" style="border-top-color: var(--info);">
+                        <h3 class="text-muted" style="font-size: 0.9rem; text-transform: uppercase;">Recent Feedback
+                        </h3>
+                        <p class="text-main" style="font-size: 2.2rem; font-weight: 700;">89</p>
+                        <span class="text-muted mt-1" style="font-size: 0.85rem;">Avg rating: 4.8 ⭐</span>
+                    </div>
+                </div>
+
+                <div class="card mt-3">
+                    <h3 class="mb-2">Recent System Activity</h3>
+                    <div class="table-container mt-2">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Activity Type</th>
+                                    <th>Patient/Doctor</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>New Registration</strong></td>
+                                    <td>Jane Doe</td>
+                                    <td>Just now</td>
+                                    <td><span class="badge badge-success">Success</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Appointment Booked</strong></td>
+                                    <td>Mark Smith (with Dr. Chen)</td>
+                                    <td>2 hours ago</td>
+                                    <td><span class="badge badge-info">Pending Check-in</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Feedback Submitted</strong></td>
+                                    <td>Anonymous</td>
+                                    <td>Yesterday</td>
+                                    <td><span class="badge badge-neutral">Logged</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div id="footer"></div>
+        </main>
+    </div>
+    <script src="../js/layout.js"></script>
+    <script src="../js/dashboard.js"></script>
+</body>
+
+</html>

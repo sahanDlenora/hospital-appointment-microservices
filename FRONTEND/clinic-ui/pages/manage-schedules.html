@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Schedules - ClinicCare</title>
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <div class="app-layout">
+        <!-- Sidebar -->
+        <div id="sidebar"></div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div id="navbar"></div>
+
+            <div class="content-area">
+                <main class="container p-0">
+                    <div class="page-header">
+                        <div>
+                            <h2>Doctor Schedules</h2>
+                            <p class="text-muted mt-1">Configure clinical hour availability.</p>
+                        </div>
+                        <button class="btn btn-primary"
+                            onclick="document.getElementById('add-schedule-card').style.display='block'">
+                            <i>+</i> New Schedule Block
+                        </button>
+                    </div>
+
+                    <div id="add-schedule-card" class="card mb-3"
+                        style="display: none; border-top: 4px solid var(--primary);">
+                        <div class="flex justify-between items-center mb-3">
+                            <h3 style="margin: 0;">Add Operating Hours</h3>
+                            <button class="btn btn-outline" style="padding: 0.2rem 0.5rem; border: none;"
+                                onclick="document.getElementById('add-schedule-card').style.display='none'">✕</button>
+                        </div>
+                        <form>
+                            <div class="flex gap-3 mb-3" style="flex-wrap: wrap;">
+                                <div class="form-group" style="flex: 1; min-width: 200px; margin-bottom: 0;">
+                                    <label for="doctor">Select Doctor</label>
+                                    <select id="doctor" class="form-control" required>
+                                        <option value="" disabled selected>Select Doctor</option>
+                                        <option value="1">Dr. Michael Chen</option>
+                                        <option value="2">Dr. Sarah Jenkins</option>
+                                        <option value="3">Dr. Emily Brown</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" style="flex: 1; min-width: 200px; margin-bottom: 0;">
+                                    <label for="day">Day</label>
+                                    <select id="day" class="form-control" required>
+                                        <option value="" disabled selected>Select Day of Week</option>
+                                        <option value="Monday">Monday</option>
+                                        <option value="Tuesday">Tuesday</option>
+                                        <option value="Wednesday">Wednesday</option>
+                                        <option value="Thursday">Thursday</option>
+                                        <option value="Friday">Friday</option>
+                                        <option value="Saturday">Saturday</option>
+                                        <option value="Sunday">Sunday</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="flex gap-3 mb-3" style="flex-wrap: wrap;">
+                                <div class="form-group" style="flex: 1; min-width: 200px; margin-bottom: 0;">
+                                    <label for="start-time">Start Time</label>
+                                    <input type="time" id="start-time" class="form-control" required>
+                                </div>
+                                <div class="form-group" style="flex: 1; min-width: 200px; margin-bottom: 0;">
+                                    <label for="end-time">End Time</label>
+                                    <input type="time" id="end-time" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="text-right mt-3">
+                                <button type="button" class="btn btn-primary">Save Schedule</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Doctor</th>
+                                    <th>Operating Day</th>
+                                    <th>Time Window</th>
+                                    <th style="text-align: right;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="flex items-center gap-2">
+                                            <div class="avatar" style="width: 32px; height: 32px; font-size: 0.8rem;">MC
+                                            </div>
+                                            <strong>Dr. Michael Chen</strong>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge badge-info text-main"
+                                            style="background: rgba(14, 165, 233, 0.1);">Monday</span></td>
+                                    <td class="font-500">09:00 AM - 01:00 PM</td>
+                                    <td style="text-align: right;">
+                                        <div class="flex gap-2" style="justify-content: flex-end;">
+                                            <button class="btn btn-outline"
+                                                style="padding: 0.35rem 0.75rem; font-size: 0.85rem;">Edit</button>
+                                            <button class="btn btn-danger"
+                                                style="padding: 0.35rem 0.75rem; font-size: 0.85rem;">Delete</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="flex items-center gap-2">
+                                            <div class="avatar" style="width: 32px; height: 32px; font-size: 0.8rem;">MC
+                                            </div>
+                                            <strong>Dr. Michael Chen</strong>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge badge-info text-main"
+                                            style="background: rgba(14, 165, 233, 0.1);">Wednesday</span></td>
+                                    <td class="font-500">02:00 PM - 06:00 PM</td>
+                                    <td style="text-align: right;">
+                                        <div class="flex gap-2" style="justify-content: flex-end;">
+                                            <button class="btn btn-outline"
+                                                style="padding: 0.35rem 0.75rem; font-size: 0.85rem;">Edit</button>
+                                            <button class="btn btn-danger"
+                                                style="padding: 0.35rem 0.75rem; font-size: 0.85rem;">Delete</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="flex items-center gap-2">
+                                            <div class="avatar"
+                                                style="width: 32px; height: 32px; font-size: 0.8rem; background: var(--success); color: white; border: none;">
+                                                SJ</div>
+                                            <strong>Dr. Sarah Jenkins</strong>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge badge-info text-main"
+                                            style="background: rgba(14, 165, 233, 0.1);">Tuesday</span></td>
+                                    <td class="font-500">10:00 AM - 03:00 PM</td>
+                                    <td style="text-align: right;">
+                                        <div class="flex gap-2" style="justify-content: flex-end;">
+                                            <button class="btn btn-outline"
+                                                style="padding: 0.35rem 0.75rem; font-size: 0.85rem;">Edit</button>
+                                            <button class="btn btn-danger"
+                                                style="padding: 0.35rem 0.75rem; font-size: 0.85rem;">Delete</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </main>
+            </div>
+            <div id="footer"></div>
+        </main>
+    </div>
+    <script src="../js/layout.js"></script>
+    <script src="../js/dashboard.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - ClinicCare</title>
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <div class="auth-container">
+        <div class="card auth-card">
+            <div class="text-center mb-3">
+                <div class="avatar mx-auto mb-2"
+                    style="width: 60px; height: 60px; background: var(--primary-light); font-size: 1.5rem;">C</div>
+                <h2 class="auth-title">Welcome Back</h2>
+                <p class="text-muted">Sign in to your ClinicCare account</p>
+            </div>
+
+            <form action="patient-dashboard.html">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" class="form-control" placeholder="name@example.com" required>
+                </div>
+                <div class="form-group mb-3">
+                    <div class="flex justify-between items-center mb-1">
+                        <label for="password" style="margin-bottom: 0;">Password</label>
+                        <a href="#" class="text-primary" style="font-size: 0.85rem; text-decoration: none;">Forgot
+                            password?</a>
+                    </div>
+                    <input type="password" id="password" class="form-control" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.75rem;">Sign In</button>
+
+                <div class="auth-links mt-3 text-center">
+                    <p class="text-muted">Don't have an account? <a href="register.html" class="text-primary font-500"
+                            style="text-decoration: none;">Create an account</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

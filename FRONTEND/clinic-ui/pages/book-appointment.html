@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment - ClinicCare</title>
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <div class="app-layout">
+        <div id="sidebar"></div>
+        <div class="main-content">
+            <div id="navbar"></div>
+
+            <div class="content-area">
+                <main class="container p-0">
+                    <div class="page-header">
+                        <div>
+                            <h2>Book an Appointment</h2>
+                            <p class="text-muted mt-1">Schedule your next visit safely and securely.</p>
+                        </div>
+                    </div>
+
+                    <div class="card" style="max-width: 700px; margin: 0 auto;">
+                        <form action="my-appointments.html">
+                            <div class="form-group mb-3">
+                                <label for="doctor">Select Specialist</label>
+                                <select id="doctor" class="form-control" required style="padding: 1rem;">
+                                    <option value="" disabled selected>— Choose your preferred doctor —</option>
+                                    <option value="1">Dr. Michael Chen (Cardiology)</option>
+                                    <option value="2">Dr. Sarah Jenkins (Pediatrics)</option>
+                                    <option value="3">Dr. Emily Brown (Neurology)</option>
+                                </select>
+                            </div>
+
+                            <div class="flex gap-3 mb-3" style="flex-wrap: wrap;">
+                                <div class="form-group" style="flex: 1; min-width: 250px; margin-bottom: 0;">
+                                    <label for="date">Select Date</label>
+                                    <input type="date" id="date" class="form-control" required style="padding: 1rem;">
+                                </div>
+                                <div class="form-group" style="flex: 1; min-width: 250px; margin-bottom: 0;">
+                                    <label for="time">Select Time Slot</label>
+                                    <select id="time" class="form-control" required style="padding: 1rem;">
+                                        <option value="" disabled selected>— Select an available time —</option>
+                                        <option value="09:00">09:00 AM</option>
+                                        <option value="09:30">09:30 AM</option>
+                                        <option value="10:00">10:00 AM</option>
+                                        <option value="10:30">10:30 AM</option>
+                                        <option value="11:00">11:00 AM</option>
+                                        <option value="14:00">02:00 PM</option>
+                                        <option value="14:30">02:30 PM</option>
+                                        <option value="15:00">03:00 PM</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="reason">Reason for Visit <span
+                                        class="text-muted font-400">(Optional)</span></label>
+                                <textarea id="reason" class="form-control" rows="4" style="padding: 1rem;"
+                                    placeholder="Briefly describe your symptoms or the reason for your visit right now..."></textarea>
+                            </div>
+
+                            <div class="mt-4 pt-3" style="border-top: 1px solid var(--border-color);">
+                                <button type="submit" class="btn btn-primary"
+                                    style="width: 100%; font-size: 1.1rem; padding: 1rem; justify-content: center;">
+                                    <i>📅</i> Confirm Booking
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </main>
+            </div>
+            <div id="footer"></div>
+        </div>
+    </div>
+    <script src="../js/layout.js"></script>
+    <script src="../js/dashboard.js"></script>
+</body>
+
+</html>
