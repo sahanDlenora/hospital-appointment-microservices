@@ -1,5 +1,7 @@
 package com.hospital.schedule_service.service.impl;
 
+import com.hospital.schedule_service.client.DoctorClient;
+import com.hospital.schedule_service.dto.DoctorResponseDTO;
 import com.hospital.schedule_service.dto.ResponseDTO;
 import com.hospital.schedule_service.dto.ScheduleDTO;
 import com.hospital.schedule_service.model.Schedule;
@@ -22,11 +24,18 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Autowired
     private ScheduleRepository scheduleRepository;
 
+    @Autowired
+    private DoctorClient doctorClient;
+
     @Override
     public ResponseDTO saveSchedule(ScheduleDTO scheduleDTO) {
 
         ResponseDTO responseDTO = new ResponseDTO();
         try {
+            DoctorResponseDTO doctor =
+                    doctorClient.getDoctorById(scheduleDTO.getDoctorId().longValue());
+
+
             Schedule schedule = new Schedule();
             schedule.setDoctorId(scheduleDTO.getDoctorId());
             schedule.setDate(scheduleDTO.getDate());
@@ -34,6 +43,8 @@ public class ScheduleServiceImpl implements ScheduleService {
             schedule.setEndTime(scheduleDTO.getEndTime());
 
             scheduleRepository.save(schedule);
+
+            scheduleDTO.setDoctor(doctor);
 
             responseDTO.setMessage("Save schedule successfully");
             responseDTO.setStatus(String.valueOf(HttpStatus.CREATED));
@@ -59,6 +70,12 @@ public class ScheduleServiceImpl implements ScheduleService {
             scheduleDTO.setDate(data.getDate());
             scheduleDTO.setStartTime(data.getStartTime());
             scheduleDTO.setEndTime(data.getEndTime());
+
+            DoctorResponseDTO doctor =
+                    doctorClient.getDoctorById(data.getDoctorId().longValue());
+
+            scheduleDTO.setDoctor(doctor);
+
             scheduleList.add(scheduleDTO);
         });
         return scheduleList;
@@ -71,6 +88,11 @@ public class ScheduleServiceImpl implements ScheduleService {
         Optional<Schedule> optionalSchedule = scheduleRepository.findById(id);
 
         if (optionalSchedule.isPresent()) {
+
+            DoctorResponseDTO doctor =
+                    doctorClient.getDoctorById(scheduleDTO.getDoctorId().longValue());
+
+
             Schedule schedule = optionalSchedule.get();
 
             schedule.setDoctorId(scheduleDTO.getDoctorId());
@@ -79,6 +101,7 @@ public class ScheduleServiceImpl implements ScheduleService {
             schedule.setEndTime(scheduleDTO.getEndTime());
 
             scheduleRepository.save(schedule);
+            scheduleDTO.setDoctor(doctor);
 
             responseDTO.setMessage("Schedule updated successfully");
             responseDTO.setStatus(String.valueOf(HttpStatus.OK));
