@@ -1,7 +1,10 @@
 package com.hospital.user_service.controller;
 
+import com.hospital.user_service.dto.AppointmentDTO;
+import com.hospital.user_service.dto.UserDTO;
 import com.hospital.user_service.entity.User;
 import com.hospital.user_service.service.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,7 +13,7 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
 
-    private final UserService userService;
+    private UserService userService;
 
     public UserController(UserService userService) {
         this.userService = userService;
@@ -18,7 +21,7 @@ public class UserController {
 
     // CREATE
     @PostMapping
-    public User createUser(@RequestBody User user) {
+    public UserDTO createUser(@RequestBody User user) {
         return userService.createUser(user);
     }
 
@@ -44,5 +47,12 @@ public class UserController {
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
+    }
+
+
+    @GetMapping("/{userId}/appointments")
+    public ResponseEntity<List<AppointmentDTO>> getUserAppointments(@PathVariable Long userId) {
+        List<AppointmentDTO> appointments = userService.getUserAppointments(userId);
+        return ResponseEntity.ok(appointments);
     }
 }

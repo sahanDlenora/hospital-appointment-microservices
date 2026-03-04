@@ -16,4 +16,6 @@ public class ScheduleDTO {
     private LocalDate date;
     private LocalTime startTime;
     private LocalTime endTime;
+
+    private DoctorResponseDTO doctor;
 }
