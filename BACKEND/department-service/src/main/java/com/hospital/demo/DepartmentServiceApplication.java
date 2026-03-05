@@ -6,9 +6,10 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
 @EnableFeignClients
-public class DepartmentServiceApplication {  // ← මෙක class එක
+public class DepartmentServiceApplication {  
 
     public static void main(String[] args) {
         SpringApplication.run(DepartmentServiceApplication.class, args);
     }
 }
+
