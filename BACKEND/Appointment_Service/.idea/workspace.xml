@@ -4,35 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="18700b9e-87da-4167-93b7-5f92c6d18974" name="Changes" comment="create CRUD service" />
+    <list default="true" id="68b8d7ba-8989-4306-8b7c-41e76e7db74d" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-        <option value="Interface" />
-      </list>
-    </option>
-  </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;rakinduathukorala&quot;
-  }
-}</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/rakinduathukorala/Appointment_Service.git&quot;,
-    &quot;accountId&quot;: &quot;2e996798-33f8-4b9c-aa06-7c8c0f1617a9&quot;
-  }
-}</component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
@@ -40,44 +17,37 @@
       </MavenGeneralSettings>
     </option>
   </component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 8
-}</component>
-  <component name="ProjectId" id="38oBQ3Y2PdpRjtDm53BD4xcQyJW" />
-  <component name="ProjectLevelVcsManager">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 1
+}]]></component>
+  <component name="ProjectId" id="3AXSN0QMGHVWMcZ146j1cpywOmo" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Application.AppointmentServiceApplication.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "Spring Boot.AppointmentServiceApplication.executor": "Run",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "E:/Git/Appointment_Service",
-    "nodejs_package_manager_path": "npm",
+    "last_opened_file_path": "E:/Git/appointment_service/appointment_service/pom.xml",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "reference.projectsettings.compiler.annotationProcessors",
-    "vue.rearranger.settings.migration": "true"
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "reference.projectsettings.compiler.annotationProcessors"
   }
 }]]></component>
-  <component name="RunManager" selected="Spring Boot.AppointmentServiceApplication">
-    <configuration name="AppointmentServiceApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.hospitalManagement.Appointment_Service.AppointmentServiceApplication" />
-      <module name="appointment-service" />
+  <component name="RunManager">
+    <configuration name="AppointmentServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UnknownPolicyInFreeMode" />
+      <module name="appointment_service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.hospital.appointment_service.AppointmentServiceApplication" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.hospitalManagement.Appointment_Service.*" />
+          <option name="PATTERN" value="com.hospital.appointment_service.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -85,28 +55,9 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="JetRunConfigurationType">
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <option name="filePath" />
-      <method v="2" />
-    </configuration>
-    <configuration name="AppointmentServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-      <option name="ALTERNATIVE_JRE_PATH" value="17" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
-      <module name="appointment-service" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.hospitalManagement.Appointment_Service.AppointmentServiceApplication" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.AppointmentServiceApplication" />
+        <item itemvalue="Spring Boot.AppointmentServiceApplication" />
       </list>
     </recent_temporary>
   </component>
@@ -119,34 +70,12 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="18700b9e-87da-4167-93b7-5f92c6d18974" name="Changes" comment="" />
-      <created>1769456023953</created>
+      <changelist id="68b8d7ba-8989-4306-8b7c-41e76e7db74d" name="Changes" comment="" />
+      <created>1772737377563</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1769456023953</updated>
-      <workItem from="1769456025247" duration="7560000" />
-      <workItem from="1769494329258" duration="4041000" />
-      <workItem from="1769503097077" duration="8150000" />
-      <workItem from="1769528976701" duration="12893000" />
-      <workItem from="1769623054216" duration="3596000" />
-      <workItem from="1771343981377" duration="21000" />
+      <updated>1772737377563</updated>
     </task>
-    <task id="LOCAL-00001" summary="create CRUD service">
-      <option name="closed" value="true" />
-      <created>1769551277812</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1769551277812</updated>
-    </task>
-    <option name="localTasksCounter" value="2" />
     <servers />
-  </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="create CRUD service" />
-    <option name="LAST_COMMIT_MESSAGE" value="create CRUD service" />
   </component>
 </project>
