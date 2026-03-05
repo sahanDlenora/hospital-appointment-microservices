@@ -8,45 +8,47 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 @RestController
 @RequestMapping(value = "/appointment")
 public class AppointmentController {
 
-@Autowired
+    @Autowired
     private AppointmentService appointmentService;
 
-@PostMapping("/book")
-    public Appointment bookAppointment(@RequestBody Appointment appointment) {
-        return appointmentService.saveAppointment(appointment);
+    @PostMapping("/book")
+    public ResponseEntity<Appointment> bookAppointment(@RequestBody Appointment appointment) {
+        Appointment savedAppointment = appointmentService.createAppointment(appointment);
+        return ResponseEntity.ok(savedAppointment);
     }
-@GetMapping("/all")
-    public List<Appointment> getAllAppointments() {
-        return appointmentService.getAllAppointments();
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Appointment>> getAllAppointments() {
+        return ResponseEntity.ok(appointmentService.getAllAppointments());
     }
-@GetMapping("/{id}")
+
+    @GetMapping("/{id}")
     public ResponseEntity<Appointment> getAppointmentById(@PathVariable Long id) {
         return appointmentService.getAppointmentById(id)
                 .map(appointment -> ResponseEntity.ok().body(appointment))
                 .orElse(ResponseEntity.notFound().build());
     }
-@PutMapping("/{id}")
+
+    @PutMapping("/{id}")
     public ResponseEntity<Appointment> updateAppointment(@PathVariable Long id, @RequestBody Appointment details) {
         return appointmentService.getAppointmentById(id)
-                .map(appointment ->{
+                .map(appointment -> {
                     appointment.setPatientId(details.getPatientId());
                     appointment.setDoctorId(details.getDoctorId());
                     appointment.setStatus(details.getStatus());
-                    return ResponseEntity.ok(appointmentService.saveAppointment(appointment));
+
+                    return ResponseEntity.ok(appointmentService.createAppointment(appointment));
                 })
                 .orElse(ResponseEntity.notFound().build());
-
     }
-@DeleteMapping("/{id}")
+
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAppointment(@PathVariable Long id) {
         appointmentService.deleteAppointmentById(id);
         return ResponseEntity.noContent().build();
     }
-
-
 }

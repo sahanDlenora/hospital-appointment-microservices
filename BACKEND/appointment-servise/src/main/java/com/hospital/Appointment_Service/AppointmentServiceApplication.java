@@ -1,4 +1,4 @@
-package com.hospitalManagement.Appointment_Service;
+package com.hospital.Appointment_Service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

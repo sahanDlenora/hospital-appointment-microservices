@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.hospitalManagement</groupId>
-	<artifactId>Appointment_Service</artifactId>
+	<artifactId>appointment-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Appointment_Service</name>
 	<description>Demo project for Spring Boot</description>

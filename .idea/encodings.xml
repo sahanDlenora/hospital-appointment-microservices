@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/BACKEND/Appointment_Service/Appointment_Service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/BACKEND/appointment-servise/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/BACKEND/doctor_service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/BACKEND/feedback-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/BACKEND/schedule_service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/BACKEND/service-registry/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/BACKEND/user-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/BASE-PROJECT/src/main/java" charset="UTF-8" />
+  </component>
+</project>
