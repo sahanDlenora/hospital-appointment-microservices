@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: department-service
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/department_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: root
+    password: Lenovo1234#
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+
+server:
+  port: 8088
+
+  eureka:
+    client:
+      service-url:
+        defaultZone: http://localhost:8761/eureka
