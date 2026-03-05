@@ -44,7 +44,7 @@
 
     <script>
 document.getElementById("loginForm").addEventListener("submit", async function(event) {
-    event.preventDefault(); // stop normal form submit
+    event.preventDefault();
 
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
@@ -68,7 +68,7 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
 
         const data = await response.json();
 
-        // Save JWT token in localStorage
+        // Save token and role only — userId comes from token on backend
         localStorage.setItem("token", data.token);
         localStorage.setItem("role", data.role);
 

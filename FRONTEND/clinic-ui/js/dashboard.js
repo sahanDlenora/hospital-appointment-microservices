@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             e.preventDefault();
-            alert("This is a static mockup. Submit action recognized!");
+            //alert("This is a static mockup. Submit action recognized!");
             form.reset();
         });
     });
