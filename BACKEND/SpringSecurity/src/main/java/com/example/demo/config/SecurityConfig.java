@@ -37,7 +37,6 @@ public class SecurityConfig {
 				.authorizeHttpRequests(request -> request
 						.requestMatchers("/auth/**").permitAll()
 						.requestMatchers("/admin/**").hasRole("ADMIN")
-						.requestMatchers("/staff/**").hasRole("STAFF")
 						.requestMatchers("/patient/**").hasRole("PATIENT")
 						.anyRequest().authenticated()) // add authentication
 				.httpBasic(Customizer.withDefaults()) //Enable for Postman also

@@ -31,11 +31,12 @@ public class JWTService {
 		this.secretKey = secretKey;
 	}
 
-	public String generateToken(String username, String role) {
+	public String generateToken(String username, String role, Long userId) {
 
 		return Jwts.builder()
 				.subject(username)
 				.claim("role", role)
+                .claim("userId", userId)
 				.issuedAt(new Date())
 				.expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
 				.signWith(getKey())
