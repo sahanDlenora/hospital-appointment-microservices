@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.client.UserServiceClient;
+import com.example.demo.dto.AuthResponse;
 import com.example.demo.dto.RegisterRequest;
 import com.example.demo.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class UserService {
 		dto.setAge(request.getAge());
 		dto.setPhone(request.getPhone());
 		dto.setAddress(request.getAddress());
-		dto.setRole(request.getRole());
+		dto.setRole("PATIENT");
 
 		UserDTO savedUser = userServiceClient.createUser(dto);
 
@@ -46,14 +47,23 @@ public class UserService {
 		Users user = new Users();
 		user.setUsername(request.getUsername());
 		user.setPassword(encoder.encode(request.getPassword()));
-		user.setRole(request.getRole());
+		user.setRole("PATIENT");
 		user.setUserId(savedUser.getId());
 
 		return repo.save(user);
 	}
 
-	public String verify(Users user) {
+	public Users createAdmin(RegisterRequest request) {
 
+		Users user = new Users();
+		user.setUsername(request.getUsername());
+		user.setPassword(encoder.encode(request.getPassword()));
+		user.setRole("ADMIN");
+
+		return repo.save(user);
+	}
+
+	public AuthResponse verify(Users user) {
 		Authentication authentication =
 				authManager.authenticate(
 						new UsernamePasswordAuthenticationToken(
@@ -62,17 +72,19 @@ public class UserService {
 						)
 				);
 
-		if(authentication.isAuthenticated()) {
-
+		if (authentication.isAuthenticated()) {
 			Users dbUser = repo.findByUsername(user.getUsername());
 
-			return jwtService.generateToken(
+			String token = jwtService.generateToken(
 					dbUser.getUsername(),
-					dbUser.getRole()
+					dbUser.getRole(),
+					dbUser.getUserId() // ← ADD THIS
 			);
+
+			return new AuthResponse(token, dbUser.getRole(), dbUser.getUserId());
 		}
 
-		return "Fail";
+		throw new RuntimeException("Invalid credentials");
 	}
 
 

@@ -1,7 +1,9 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.AuthResponse;
 import com.example.demo.dto.RegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,11 +23,16 @@ public class UserController {
 	public Users register(@RequestBody RegisterRequest request) {
 		return service.register(request);
 	}
-	
+
 	@PostMapping("/login")
-	public String login(@RequestBody Users user) {
-		
+	public AuthResponse login(@RequestBody Users user) {
 		return service.verify(user);
+	}
+
+	@PostMapping("/admin/create")
+	@PreAuthorize("hasRole('ADMIN')")
+	public Users createAdmin(@RequestBody RegisterRequest request) {
+		return service.createAdmin(request);
 	}
 
 }

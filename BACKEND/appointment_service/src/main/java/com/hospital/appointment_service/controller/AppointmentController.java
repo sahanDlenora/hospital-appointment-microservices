@@ -1,9 +1,7 @@
-package com.hospital.appointment_service.controller;
+package com.hospitalManagement.Appointment_Service.controller;
 
-
-
-import com.hospital.appointment_service.model.Appointment;
-import com.hospital.appointment_service.service.AppointmentService;
+import com.hospitalManagement.Appointment_Service.model.Appointment;
+import com.hospitalManagement.Appointment_Service.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -52,5 +50,11 @@ public class AppointmentController {
     public ResponseEntity<Void> deleteAppointment(@PathVariable Long id) {
         appointmentService.deleteAppointmentById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/patient/{userId}")
+    public ResponseEntity<List<Appointment>> getAppointmentsByUserId(@PathVariable Long userId) {
+        List<Appointment> appointments = appointmentService.getAppointmentsByPatientId(userId);
+        return ResponseEntity.ok(appointments);
     }
 }

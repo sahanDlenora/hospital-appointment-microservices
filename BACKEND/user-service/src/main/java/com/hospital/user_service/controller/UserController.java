@@ -19,6 +19,11 @@ public class UserController {
         this.userService = userService;
     }
 
+    @GetMapping("/health")
+    public String health() {
+        return "User Service is running";
+    }
+
     // CREATE
     @PostMapping
     public UserDTO createUser(@RequestBody User user) {
