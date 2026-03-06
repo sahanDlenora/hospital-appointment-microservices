@@ -10,7 +10,6 @@
         <module name="user-service" />
         <module name="doctor_service" />
         <module name="service-registry" />
-        <module name="user-service (1)" />
         <module name="user-service (2)" />
       </profile>
       <profile name="Annotation profile for schedule_service" enabled="true">
@@ -21,10 +20,22 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
         </processorPath>
         <module name="schedule_service" />
+      </profile>
+      <profile name="Annotation profile for feedback-service" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
+        </processorPath>
         <module name="feedback-service" />
-        <module name="Appointment_Service" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Appointment_Service" target="17" />
+      <module name="user-service (1)" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
