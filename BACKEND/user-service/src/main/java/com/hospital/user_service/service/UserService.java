@@ -1,34 +1,48 @@
 package com.hospital.user_service.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hospital.user_service.client.AppointmentClient;
+import com.hospital.user_service.dto.AppointmentDTO;
+import com.hospital.user_service.dto.UserDTO;
 import com.hospital.user_service.entity.User;
 import com.hospital.user_service.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
-
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private final AppointmentClient appointmentClient;
+    private final ObjectMapper objectMapper;
 
     // CREATE
-    public User createUser(User user) {
-        return userRepository.save(user);
+    public UserDTO createUser(User user) {
+
+        User save = userRepository.save(user);
+        return objectMapper.convertValue(save, UserDTO.class);
     }
 
     // READ ALL
     public List<User> getAllUsers() {
+
         return userRepository.findAll();
     }
 
     // READ BY ID
     public User getUserById(Long id) {
+
         return userRepository.findById(id).orElse(null);
     }
+
+    public List<AppointmentDTO> getUserAppointments(Long userId) {
+        return appointmentClient.getAppointmentsByUser(userId);
+    }
+
 
     // UPDATE
     public User updateUser(Long id, User updatedUser) {

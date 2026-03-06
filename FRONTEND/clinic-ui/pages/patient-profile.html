@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Profile - ClinicCare</title>
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <div class="app-layout">
+        <div id="sidebar"></div>
+        <div class="main-content">
+            <div id="navbar"></div>
+
+            <div class="content-area">
+                <main class="container p-0">
+                    <div class="page-header">
+                        <div>
+                            <h2>My Profile</h2>
+                            <p class="text-muted mt-1">Manage your personal information and medical history.</p>
+                        </div>
+                        <button class="btn btn-outline"
+                            onclick="document.getElementById('edit-profile-card').style.display='block'">
+                            <i>✏️</i> Edit Profile
+                        </button>
+                    </div>
+
+                    <div id="edit-profile-card" class="card mb-3"
+                        style="display: none; border-top: 4px solid var(--primary); max-width: 800px; margin: 0 auto 1.5rem auto;">
+                        <div class="flex justify-between items-center mb-3">
+                            <h3 style="margin: 0;">Edit Profile</h3>
+                            <button class="btn btn-outline" style="padding: 0.2rem 0.5rem; border: none;"
+                                onclick="document.getElementById('edit-profile-card').style.display='none'">✕</button>
+                        </div>
+                        <form>
+                            <div class="dashboard-grid" style="grid-template-columns: 1fr 1fr;">
+                                <div class="form-group mb-3">
+                                    <label for="edit-name">Full Name</label>
+                                    <input type="text" id="edit-name" class="form-control" value="John Patient">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="edit-email">Email Address</label>
+                                    <input type="email" id="edit-email" class="form-control"
+                                        value="john.patient@example.com">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="edit-phone">Phone Number</label>
+                                    <input type="tel" id="edit-phone" class="form-control" value="(555) 123-4567">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="edit-age">Age</label>
+                                    <input type="number" id="edit-age" class="form-control" value="34">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="edit-gender">Gender</label>
+                                    <select id="edit-gender" class="form-control">
+                                        <option value="Male" selected>Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="edit-blood">Blood Group</label>
+                                    <select id="edit-blood" class="form-control">
+                                        <option value="O+" selected>O+</option>
+                                        <option value="O-">O-</option>
+                                        <option value="A+">A+</option>
+                                        <option value="A-">A-</option>
+                                        <option value="B+">B+</option>
+                                        <option value="B-">B-</option>
+                                        <option value="AB+">AB+</option>
+                                        <option value="AB-">AB-</option>
+                                    </select>
+                                </div>
+                                <div class="form-group mb-3" style="grid-column: span 2;">
+                                    <label for="edit-address">Address</label>
+                                    <input type="text" id="edit-address" class="form-control"
+                                        value="123 Health Ave, Medical District, NY 10001">
+                                </div>
+                                <div class="form-group mb-3" style="grid-column: span 2;">
+                                    <label for="edit-allergies">Allergies</label>
+                                    <input type="text" id="edit-allergies" class="form-control" value="Penicillin">
+                                </div>
+                            </div>
+                            <div class="text-right mt-3">
+                                <button type="button" class="btn btn-primary" onclick="saveProfileChanges()">Save
+                                    Changes</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="card" style="max-width: 800px; margin: 0 auto;">
+                        <div class="flex items-center gap-4 mb-3 pb-3"
+                            style="border-bottom: 1px solid var(--border-color);">
+                            <div class="avatar" id="display-avatar"
+                                style="width: 100px; height: 100px; font-size: 2.5rem; background: var(--primary); color: white;">
+                                JP
+                            </div>
+                            <div>
+                                <h3 id="display-header-name" style="font-size: 1.8rem; margin-bottom: 0.25rem;">John
+                                    Patient</h3>
+                                <p class="text-muted" style="font-size: 1.1rem;">Patient ID: <span
+                                        class="badge badge-neutral">PT-1045</span></p>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-grid" style="grid-template-columns: 1fr 1fr;">
+                            <div>
+                                <div class="mb-3">
+                                    <p class="text-muted font-500 mb-1"
+                                        style="font-size: 0.85rem; text-transform: uppercase;">Full Name</p>
+                                    <p id="display-name" class="text-main"
+                                        style="font-size: 1.05rem; font-weight: 500;">John Patient</p>
+                                </div>
+
+                                <div class="mb-3">
+                                    <p class="text-muted font-500 mb-1"
+                                        style="font-size: 0.85rem; text-transform: uppercase;">Age</p>
+                                    <p id="display-age" class="text-main" style="font-size: 1.05rem; font-weight: 500;">
+                                        34 Years</p>
+                                </div>
+
+                                <div class="mb-3">
+                                    <p class="text-muted font-500 mb-1"
+                                        style="font-size: 0.85rem; text-transform: uppercase;">Gender</p>
+                                    <p id="display-gender" class="text-main"
+                                        style="font-size: 1.05rem; font-weight: 500;">Male</p>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="mb-3">
+                                    <p class="text-muted font-500 mb-1"
+                                        style="font-size: 0.85rem; text-transform: uppercase;">Email Address</p>
+                                    <p id="display-email" class="text-main"
+                                        style="font-size: 1.05rem; font-weight: 500;">john.patient@example.com</p>
+                                </div>
+
+                                <div class="mb-3">
+                                    <p class="text-muted font-500 mb-1"
+                                        style="font-size: 0.85rem; text-transform: uppercase;">Phone Number</p>
+                                    <p id="display-phone" class="text-main"
+                                        style="font-size: 1.05rem; font-weight: 500;">(555) 123-4567</p>
+                                </div>
+
+                                <div class="mb-3">
+                                    <p class="text-muted font-500 mb-1"
+                                        style="font-size: 0.85rem; text-transform: uppercase;">Address</p>
+                                    <p id="display-address" class="text-main"
+                                        style="font-size: 1.05rem; font-weight: 500;">123 Health Ave, Medical District,
+                                        NY 10001</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 pt-3" style="border-top: 1px solid var(--border-color);">
+                            <h4 class="mb-2 text-primary">Medical Info Summary</h4>
+                            <div class="flex gap-4 flex-wrap bg-body p-3"
+                                style="border-radius: var(--radius-md); background: var(--bg-body); padding: 1.25rem;">
+                                <div style="flex: 1; min-width: 150px;">
+                                    <p class="text-muted font-500 mb-1"
+                                        style="font-size: 0.85rem; text-transform: uppercase;">Blood Group</p>
+                                    <span id="display-blood" class="badge badge-danger"
+                                        style="font-size: 1rem; padding: 0.4rem 1rem;">O+</span>
+                                </div>
+                                <div style="flex: 1; min-width: 150px;">
+                                    <p class="text-muted font-500 mb-1"
+                                        style="font-size: 0.85rem; text-transform: uppercase;">Allergies</p>
+                                    <span id="display-allergies" class="badge badge-warning"
+                                        style="font-size: 1rem; padding: 0.4rem 1rem;">Penicillin</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+            <div id="footer"></div>
+        </div>
+    </div>
+    <script src="../js/layout.js"></script>
+    <script src="../js/dashboard.js"></script>
+    <script>
+        function saveProfileChanges() {
+            // Get values
+            const name = document.getElementById('edit-name').value;
+            const email = document.getElementById('edit-email').value;
+            const phone = document.getElementById('edit-phone').value;
+            const age = document.getElementById('edit-age').value;
+            const gender = document.getElementById('edit-gender').value;
+            const blood = document.getElementById('edit-blood').value;
+            const address = document.getElementById('edit-address').value;
+            const allergies = document.getElementById('edit-allergies').value;
+
+            // Update displays
+            document.getElementById('display-name').innerText = name;
+            document.getElementById('display-header-name').innerText = name;
+
+            // Update avatar initials
+            let initials = "JP";
+            if (name) {
+                const parts = name.trim().split(' ');
+                if (parts.length > 1) {
+                    initials = parts[0][0] + parts[parts.length - 1][0];
+                } else if (parts.length === 1 && parts[0].length > 0) {
+                    initials = parts[0].substring(0, 2);
+                }
+            }
+            document.getElementById('display-avatar').innerText = initials.toUpperCase();
+
+            document.getElementById('display-email').innerText = email;
+            document.getElementById('display-phone').innerText = phone;
+            document.getElementById('display-age').innerText = age + " Years";
+            document.getElementById('display-gender').innerText = gender;
+            document.getElementById('display-blood').innerText = blood;
+            document.getElementById('display-address').innerText = address;
+            document.getElementById('display-allergies').innerText = allergies;
+
+            // Hide form
+            document.getElementById('edit-profile-card').style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>

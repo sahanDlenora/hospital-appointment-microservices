@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.hospital.demo.entity.Department;
 import com.hospital.demo.repository.DepartmentRepository;
 import com.hospital.demo.service.DepartmentService;
+import com.hospital.demo.exception.ResourceNotFoundException;
 
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
@@ -22,7 +23,8 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public Department getDepartmentById(Long id) {
-        return repository.findById(id).orElseThrow();
+        return repository.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("Department not found with id " + id));
     }
 
     @Override
@@ -32,7 +34,8 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public Department updateDepartment(Long id, Department department) {
-        Department existing = repository.findById(id).orElseThrow();
+        Department existing = repository.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("Department not found with id " + id));
         existing.setDepartmentName(department.getDepartmentName());
         existing.setDepartmentCode(department.getDepartmentCode());
         existing.setDepartmentDescription(department.getDepartmentDescription());
@@ -41,6 +44,10 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public void deleteDepartment(Long id) {
-        repository.deleteById(id);
+        Department department = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Department not found with id " + id));
+
+        repository.delete(department);
     }
 }
+

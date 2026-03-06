@@ -28,4 +28,7 @@ public class User {
 
     private String address;
 
+    @Column(nullable = false)
+    private String role;
+
 }

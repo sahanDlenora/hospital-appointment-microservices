@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Give Feedback - ClinicCare</title>
+
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/style.css">
+
+    <style>
+        .star-rating {
+            direction: rtl;
+            display: inline-flex;
+            font-size: 2.5rem;
+            gap: 0.25rem;
+        }
+
+        .star-rating input {
+            display: none;
+        }
+
+        .star-rating label {
+            color: #ccc;
+            cursor: pointer;
+        }
+
+        .star-rating label:hover,
+        .star-rating label:hover~label,
+        .star-rating input:checked~label {
+            color: #FBBF24;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="app-layout">
+
+        <div id="sidebar"></div>
+
+        <div class="main-content">
+
+            <div id="navbar"></div>
+
+            <div class="content-area">
+
+                <main class="container p-0">
+
+                    <div class="page-header">
+                        <h2>Give Feedback</h2>
+                        <p>We value your review to help us improve our services.</p>
+                    </div>
+
+
+                    <div class="card" style="max-width:600px;margin:auto;padding:2rem">
+
+                        <form id="feedbackForm">
+
+                            <div class="form-group">
+
+                                <label>Select Doctor</label>
+
+                                <select id="doctor" class="form-control" required>
+
+                                    <option value="">Loading doctors...</option>
+
+                                </select>
+
+                            </div>
+
+
+                            <div class="form-group text-center">
+
+                                <label>Rate Experience</label>
+
+                                <div class="star-rating">
+
+                                    <input type="radio" id="star5" name="rating" value="5">
+                                    <label for="star5">★</label>
+
+                                    <input type="radio" id="star4" name="rating" value="4">
+                                    <label for="star4">★</label>
+
+                                    <input type="radio" id="star3" name="rating" value="3">
+                                    <label for="star3">★</label>
+
+                                    <input type="radio" id="star2" name="rating" value="2">
+                                    <label for="star2">★</label>
+
+                                    <input type="radio" id="star1" name="rating" value="1">
+                                    <label for="star1">★</label>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label>Comment</label>
+
+                                <textarea id="comment" class="form-control" rows="4"></textarea>
+
+                            </div>
+
+
+                            <button type="submit" class="btn btn-primary" style="width:100%">
+                                Submit Feedback
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </main>
+
+            </div>
+
+            <div id="footer"></div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+    loadDoctors();
+});
+
+async function loadDoctors() {
+    try {
+        const token = localStorage.getItem("token");
+
+        const response = await fetch("http://localhost:8083/api/doctors", {
+            method: "GET",
+            headers: {
+                "Authorization": "Bearer " + token,
+                "Content-Type": "application/json"
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error("Unauthorized or server error");
+        }
+
+        const doctors = await response.json();
+
+        const dropdown = document.getElementById("doctor");
+
+        dropdown.innerHTML = '<option value="">— Choose the doctor you visited —</option>';
+
+        doctors.forEach(doc => {
+            const option = document.createElement("option");
+            option.value = doc.doctorId;
+            option.textContent =
+                doc.name + " - " + doc.specialization + " (" + doc.department.departmentName + ")";
+            dropdown.appendChild(option);
+        });
+
+    } catch (error) {
+        console.error("Error loading doctors:", error);
+        alert("Failed to load doctors");
+    }
+}
+
+function getRating() {
+    const rating = document.querySelector('input[name="rating"]:checked');
+    if (!rating) {
+        alert("Please select rating");
+        return null;
+    }
+    return parseInt(rating.value);
+}
+
+document.getElementById("feedbackForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const doctorId = document.getElementById("doctor").value;
+    const rating = getRating();
+    const comment = document.getElementById("comment").value;
+
+    if (!doctorId) {
+        alert("Please select doctor");
+        return;
+    }
+
+    if (!rating) return;
+
+    try {
+        const response = await fetch("http://localhost:8083/feedbacks", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + localStorage.getItem("token")
+                // ✅ No patientId sent — backend extracts it from the token securely
+            },
+            body: JSON.stringify({
+                doctorId: parseInt(doctorId),
+                rating: rating,
+                comment: comment
+                // ✅ patientId removed from here
+            })
+        });
+
+        if (response.ok) {
+            alert("Feedback submitted successfully");
+            window.location.href = "patient-dashboard.html";
+        } else {
+            alert("Failed to submit feedback");
+        }
+
+    } catch (error) {
+        console.error(error);
+        alert("Server error");
+    }
+});
+
+    </script>
+
+
+    <script src="../js/layout.js"></script>
+    <script src="../js/dashboard.js"></script>
+
+</body>
+
+</html>

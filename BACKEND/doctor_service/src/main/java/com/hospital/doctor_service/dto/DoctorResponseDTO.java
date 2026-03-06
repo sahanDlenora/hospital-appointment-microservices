@@ -1,7 +1,10 @@
 package com.hospital.doctor_service.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class DoctorResponseDTO {
 
+    @JsonProperty("doctorId")
     private Long id;
     private String name;
     private String specialization;
