@@ -10,20 +10,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin
-@RequestMapping("/schedules")
+@RequestMapping("/api/schedules")
 public class ScheduleController {
 
     @Autowired
     private ScheduleService scheduleService;
 
-    @PostMapping("/save")
+    @PostMapping
     public ResponseDTO saveSchedule(@RequestBody ScheduleDTO scheduleDTO) {
 
         return scheduleService.saveSchedule(scheduleDTO);
     }
 
-    @GetMapping("/get")
+    @GetMapping
     public List<ScheduleDTO> getAllSchedules() {
         return scheduleService.getAllSchedules();
     }
