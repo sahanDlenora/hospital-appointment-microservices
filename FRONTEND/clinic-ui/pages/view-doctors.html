@@ -2,183 +2,73 @@
 <html lang="en">
 
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>View Doctors - ClinicCare</title>
-
-<link rel="stylesheet" href="../css/layout.css">
-<link rel="stylesheet" href="../css/style.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Doctors - ClinicCare</title>
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 
 <body>
+    <div class="app-layout">
 
-<div class="app-layout">
+        <!-- Sidebar -->
+        <div id="sidebar"></div>
 
-<!-- Sidebar -->
-<div id="sidebar"></div>
+        <!-- Main Content -->
+        <main class="main-content">
+            <div id="navbar"></div>
 
-<!-- Main Content -->
-<main class="main-content">
+            <div class="content-area">
+                <div class="container p-0">
 
-<div id="navbar"></div>
+                    <div class="page-header">
+                        <div>
+                            <h2>Our Specialists</h2>
+                            <p class="text-muted mt-1">Find the right doctor for your healthcare needs.</p>
+                        </div>
 
-<div class="content-area">
+                        <div class="flex gap-2">
+                            <select id="deptFilter" class="form-control"
+                                style="width: auto; min-width: 180px;">
+                                <option value="">All Departments</option>
+                            </select>
+                            <input type="text" id="searchInput" class="form-control"
+                                placeholder="Search by name..." style="width: 250px;" />
+                        </div>
+                    </div>
 
-<main class="container p-0">
+                    <div class="table-container mt-3">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Doctor</th>
+                                    <th>Specialization</th>
+                                    <th>Department</th>
+                                </tr>
+                            </thead>
+                            <tbody id="doctorTableBody">
+                                <tr>
+                                    <td colspan="3"
+                                        style="text-align: center; padding: 2rem; color: var(--text-muted);">
+                                        Loading doctors...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
-<div class="page-header">
-<div>
-<h2>Our Specialists</h2>
-<p class="text-muted mt-1">
-Find the right doctor for your healthcare needs.
-</p>
-</div>
+                </div>
+            </div>
 
-<div class="flex gap-2">
-<select class="form-control" style="width:auto; min-width:180px;">
-<option value="">All Departments</option>
-</select>
+            <div id="footer"></div>
+        </main>
 
-<input type="text"
-class="form-control"
-placeholder="Search by name..."
-style="width:250px;">
-</div>
-</div>
+    </div>
 
-
-<div class="table-container mt-3">
-
-<table>
-
-<thead>
-<tr>
-<th>Doctor</th>
-<th>Specialization</th>
-<th>Department</th>
-<th style="text-align:right;">Action</th>
-</tr>
-</thead>
-
-<!-- DATA WILL BE INSERTED HERE -->
-<tbody id="doctorTableBody"></tbody>
-
-</table>
-
-</div>
-
-</main>
-
-</div>
-
-<div id="footer"></div>
-
-</main>
-
-</div>
-
-<script src="../js/layout.js"></script>
-<script src="../js/dashboard.js"></script>
-
-<script>
-
-async function loadDoctors(){
-
-try{
-
-const response = await fetch("http://localhost:8082/api/doctors");
-
-const doctors = await response.json();
-
-console.log("Doctors:", doctors);
-
-const tableBody = document.getElementById("doctorTableBody");
-
-tableBody.innerHTML="";
-
-doctors.forEach(doc => {
-
-let initials = doc.name
-.split(" ")
-.map(word => word[0])
-.join("");
-
-let departmentName = doc.department
-? doc.department.departmentName
-: "N/A";
-
-let row = `
-<tr>
-
-<td>
-<div class="flex items-center gap-3">
-
-<div class="avatar"
-style="width:40px;height:40px;font-size:1rem;background:var(--primary-light);">
-${initials}
-</div>
-
-<div>
-<strong style="display:block;font-size:1.05rem;">
-${doc.name}
-</strong>
-</div>
-
-</div>
-</td>
-
-<td>
-<span class="badge badge-neutral">
-${doc.specialization}
-</span>
-</td>
-
-<td class="text-main">
-${departmentName}
-</td>
-
-<td style="text-align:right">
-
-<div class="flex gap-2" style="justify-content:flex-end;">
-
-<a href="view-schedule.html?doc=${doc.id}"
-class="btn btn-outline"
-style="padding:0.35rem 0.75rem;font-size:0.85rem;">
-View Schedule
-</a>
-
-<a href="book-appointment.html?doc=${doc.id}"
-class="btn btn-primary"
-style="padding:0.35rem 0.75rem;font-size:0.85rem;">
-Book Now
-</a>
-
-</div>
-
-</td>
-
-</tr>
-`;
-
-tableBody.innerHTML += row;
-
-});
-
-}
-
-catch(error){
-
-console.error("Error loading doctors:", error);
-
-}
-
-}
-
-window.onload = loadDoctors;
-
-</script>
-
+    <script src="../js/layout.js"></script>
+    <script src="../js/dashboard.js"></script>
+    <script src="../js/doctor.js"></script>
 </body>
 
 </html>
