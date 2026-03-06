@@ -5,7 +5,7 @@ import lombok.*;
 
 @Entity
 public class Doctor {
-
+    //declare the variables
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long doctorId;
@@ -24,7 +24,7 @@ public class Doctor {
 
     public Doctor() {
     }
-
+    //constructor used to create a Doctor object.
     public Doctor(Long doctorId, String name, String specialization, String email, String phone,Long departmentId) {
         this.doctorId = doctorId;
         this.name = name;
@@ -34,7 +34,7 @@ public class Doctor {
         this.departmentId = departmentId;
     }
 
-
+    //getters and setters
     public Long getDepartmentId() {
         return departmentId;
     }
@@ -83,7 +83,7 @@ public class Doctor {
         this.phone = phone;
     }
 
-
+    //toString method
     @Override
     public String toString() {
         return "Doctor{" +
