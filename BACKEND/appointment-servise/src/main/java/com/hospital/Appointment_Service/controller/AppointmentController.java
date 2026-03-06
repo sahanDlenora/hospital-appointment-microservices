@@ -51,4 +51,10 @@ public class AppointmentController {
         appointmentService.deleteAppointmentById(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/patient/{userId}")
+    public ResponseEntity<List<Appointment>> getAppointmentsByUserId(@PathVariable Long userId) {
+        List<Appointment> appointments = appointmentService.getAppointmentsByPatientId(userId);
+        return ResponseEntity.ok(appointments);
+    }
 }
