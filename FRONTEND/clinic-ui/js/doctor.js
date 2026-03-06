@@ -1,16 +1,11 @@
-// =============================================================
-// doctor.js  —  Patient View: Read-only doctor table
-// API Gateway : http://localhost:8083/api/doctors
-// Auth        : JWT token + role read from localStorage
-// =============================================================
 
 const API_BASE = "http://localhost:8083/api/doctors";
 
 let allDoctors = [];
 
-// ─────────────────────────────────────────────────────────────
+
 // Auth headers
-// ─────────────────────────────────────────────────────────────
+
 function getHeaders() {
     return {
         "Content-Type": "application/json",
@@ -19,9 +14,9 @@ function getHeaders() {
     };
 }
 
-// ─────────────────────────────────────────────────────────────
+
 // Load doctors from API
-// ─────────────────────────────────────────────────────────────
+
 async function loadDoctors() {
     setTableContent(`
         <tr>
@@ -48,9 +43,9 @@ async function loadDoctors() {
     }
 }
 
-// ─────────────────────────────────────────────────────────────
+
 // Build department dropdown from API data
-// ─────────────────────────────────────────────────────────────
+
 function populateDeptFilter() {
     const select = document.getElementById("deptFilter");
     if (!select) return;
@@ -68,9 +63,9 @@ function populateDeptFilter() {
     });
 }
 
-// ─────────────────────────────────────────────────────────────
+
 // Filter — fires on search keypress or dept dropdown change
-// ─────────────────────────────────────────────────────────────
+
 function filterDoctors() {
     const query = document.getElementById("searchInput")?.value.toLowerCase().trim() || "";
     const dept  = document.getElementById("deptFilter")?.value || "";
@@ -84,9 +79,9 @@ function filterDoctors() {
     renderTable(filtered);
 }
 
-// ─────────────────────────────────────────────────────────────
+
 // Render rows into tbody
-// ─────────────────────────────────────────────────────────────
+
 function renderTable(doctors) {
     if (!doctors.length) {
         setTableContent(`
@@ -102,9 +97,9 @@ function renderTable(doctors) {
         doctors.map(buildRow).join("");
 }
 
-// ─────────────────────────────────────────────────────────────
+
 // Build a single table row
-// ─────────────────────────────────────────────────────────────
+
 function buildRow(d) {
     const initials = (d.name || "?")
         .split(" ")
@@ -141,9 +136,8 @@ function buildRow(d) {
         </tr>`;
 }
 
-// ─────────────────────────────────────────────────────────────
 // Helper — safely write HTML into tbody
-// ─────────────────────────────────────────────────────────────
+
 function setTableContent(html) {
     const tbody = document.getElementById("doctorTableBody");
     if (!tbody) {
@@ -153,10 +147,7 @@ function setTableContent(html) {
     tbody.innerHTML = html;
 }
 
-// ─────────────────────────────────────────────────────────────
-// Init — wait for layoutReady (fired by layout.js after all
-// components are fully fetched and injected into the DOM)
-// ─────────────────────────────────────────────────────────────
+
 document.addEventListener("layoutReady", function () {
     const searchInput = document.getElementById("searchInput");
     const deptFilter  = document.getElementById("deptFilter");

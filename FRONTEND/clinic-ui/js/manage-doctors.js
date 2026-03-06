@@ -1,16 +1,11 @@
-// =============================================================
-// manage-doctors.js  —  Admin: Full CRUD for Doctors
-// API Gateway : http://localhost:8083/api/doctors
-// Auth        : JWT token + role read from localStorage
-// =============================================================
+
 
 const API_BASE = "http://localhost:8083/api/doctors";
 
 let pendingDeleteId = null; // ID waiting for delete confirmation
 
-// ─────────────────────────────────────────────────────────────
+
 // Auth helpers
-// ─────────────────────────────────────────────────────────────
 function getHeaders() {
     return {
         "Content-Type": "application/json",
@@ -19,9 +14,7 @@ function getHeaders() {
     };
 }
 
-// ─────────────────────────────────────────────────────────────
 // Toast
-// ─────────────────────────────────────────────────────────────
 function showToast(message, type = "success") {
     const toast = document.getElementById("toast");
     toast.textContent = message;
@@ -31,9 +24,8 @@ function showToast(message, type = "success") {
     toast._t = setTimeout(() => (toast.style.display = "none"), 3000);
 }
 
-// ─────────────────────────────────────────────────────────────
+
 // Load & render table
-// ─────────────────────────────────────────────────────────────
 async function loadDoctors() {
     const tbody = document.getElementById("doctorTableBody");
     tbody.innerHTML = `
@@ -117,9 +109,8 @@ function buildRow(d) {
         </tr>`;
 }
 
-// ─────────────────────────────────────────────────────────────
+
 // Add form — open / close
-// ─────────────────────────────────────────────────────────────
 function openAddForm() {
     document.getElementById("formTitle").textContent = "Add New Doctor";
     document.getElementById("editDoctorId").value = "";
@@ -144,9 +135,8 @@ function resetForm() {
     hideFormError();
 }
 
-// ─────────────────────────────────────────────────────────────
+
 // Edit form — fetch doctor then populate
-// ─────────────────────────────────────────────────────────────
 async function openEditForm(id) {
     try {
         const res = await fetch(`${API_BASE}/${id}`, { headers: getHeaders() });
@@ -167,9 +157,8 @@ async function openEditForm(id) {
     }
 }
 
-// ─────────────────────────────────────────────────────────────
+
 // Form submit — create or update
-// ─────────────────────────────────────────────────────────────
 async function handleFormSubmit(e) {
     e.preventDefault();
 
@@ -191,7 +180,7 @@ async function handleFormSubmit(e) {
         let res;
 
         if (editId) {
-            // ── UPDATE ──
+            //UPDATE 
             res = await fetch(`${API_BASE}/${editId}`, {
                 method: "PUT",
                 headers: getHeaders(),
@@ -221,9 +210,8 @@ async function handleFormSubmit(e) {
     }
 }
 
-// ─────────────────────────────────────────────────────────────
+
 // Delete
-// ─────────────────────────────────────────────────────────────
 function openDeleteModal(id) {
     pendingDeleteId = id;
     const overlay = document.getElementById("deleteOverlay");
@@ -253,9 +241,7 @@ async function confirmDelete() {
     }
 }
 
-// ─────────────────────────────────────────────────────────────
-// Form error helpers
-// ─────────────────────────────────────────────────────────────
+
 function showFormError(msg) {
     const el = document.getElementById("formError");
     el.textContent = msg;
@@ -268,9 +254,9 @@ function hideFormError() {
     el.style.display = "none";
 }
 
-// ─────────────────────────────────────────────────────────────
+
 // Boot — wait for DOM to be fully parsed before wiring anything
-// ─────────────────────────────────────────────────────────────
+
 document.addEventListener("DOMContentLoaded", function () {
 
     document.getElementById("addDoctorBtn").addEventListener("click", openAddForm);
