@@ -25,133 +25,63 @@
                             <h2>Doctor Schedules</h2>
                             <p class="text-muted mt-1">Configure clinical hour availability.</p>
                         </div>
-                        <button class="btn btn-primary"
-                            onclick="document.getElementById('add-schedule-card').style.display='block'">
+                        <button class="btn btn-primary" onclick="openAddForm()">
                             <i>+</i> New Schedule Block
                         </button>
                     </div>
 
-                    <div id="add-schedule-card" class="card mb-3"
+                    <!-- ── ADD / EDIT FORM CARD ─────────────────────────────────── -->
+                    <div id="schedule-form-card" class="card mb-3"
                         style="display: none; border-top: 4px solid var(--primary);">
                         <div class="flex justify-between items-center mb-3">
-                            <h3 style="margin: 0;">Add Operating Hours</h3>
+                            <h3 id="form-card-title" style="margin: 0;">Add Operating Hours</h3>
                             <button class="btn btn-outline" style="padding: 0.2rem 0.5rem; border: none;"
-                                onclick="document.getElementById('add-schedule-card').style.display='none'">✕</button>
+                                onclick="closeForm()">✕</button>
                         </div>
                         <form>
                             <div class="flex gap-3 mb-3" style="flex-wrap: wrap;">
                                 <div class="form-group" style="flex: 1; min-width: 200px; margin-bottom: 0;">
-                                    <label for="doctor">Select Doctor</label>
-                                    <select id="doctor" class="form-control" required>
+                                    <label>Select Doctor</label>
+                                    <select id="doctorSelect" class="form-control" required>
                                         <option value="" disabled selected>Select Doctor</option>
-                                        <option value="1">Dr. Michael Chen</option>
-                                        <option value="2">Dr. Sarah Jenkins</option>
-                                        <option value="3">Dr. Emily Brown</option>
                                     </select>
                                 </div>
                                 <div class="form-group" style="flex: 1; min-width: 200px; margin-bottom: 0;">
-                                    <label for="day">Day</label>
-                                    <select id="day" class="form-control" required>
-                                        <option value="" disabled selected>Select Day of Week</option>
-                                        <option value="Monday">Monday</option>
-                                        <option value="Tuesday">Tuesday</option>
-                                        <option value="Wednesday">Wednesday</option>
-                                        <option value="Thursday">Thursday</option>
-                                        <option value="Friday">Friday</option>
-                                        <option value="Saturday">Saturday</option>
-                                        <option value="Sunday">Sunday</option>
-                                    </select>
+                                    <label for="dateInput">Date</label>
+                                    <input type="date" id="dateInput" class="form-control" required>
                                 </div>
                             </div>
                             <div class="flex gap-3 mb-3" style="flex-wrap: wrap;">
                                 <div class="form-group" style="flex: 1; min-width: 200px; margin-bottom: 0;">
-                                    <label for="start-time">Start Time</label>
-                                    <input type="time" id="start-time" class="form-control" required>
+                                    <label for="startTimeInput">Start Time</label>
+                                    <input type="time" id="startTimeInput" class="form-control" required>
                                 </div>
                                 <div class="form-group" style="flex: 1; min-width: 200px; margin-bottom: 0;">
-                                    <label for="end-time">End Time</label>
-                                    <input type="time" id="end-time" class="form-control" required>
+                                    <label for="endTimeInput">End Time</label>
+                                    <input type="time" id="endTimeInput" class="form-control" required>
                                 </div>
                             </div>
                             <div class="text-right mt-3">
-                                <button type="button" class="btn btn-primary">Save Schedule</button>
+                                <button type="button" class="btn btn-outline" onclick="closeForm()"
+                                    style="margin-right: 0.5rem;">Cancel</button>
+                                <button type="button" id="form-submit-btn" class="btn btn-primary"
+                                    onclick="submitScheduleForm()">Save Schedule</button>
                             </div>
                         </form>
                     </div>
 
+                    <!-- ── TABLE ──────────────────────────────────────────────────── -->
                     <div class="table-container">
                         <table>
                             <thead>
                                 <tr>
                                     <th>Doctor</th>
-                                    <th>Operating Day</th>
+                                    <th>Operating Date</th>
                                     <th>Time Window</th>
                                     <th style="text-align: right;">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="flex items-center gap-2">
-                                            <div class="avatar" style="width: 32px; height: 32px; font-size: 0.8rem;">MC
-                                            </div>
-                                            <strong>Dr. Michael Chen</strong>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge badge-info text-main"
-                                            style="background: rgba(14, 165, 233, 0.1);">Monday</span></td>
-                                    <td class="font-500">09:00 AM - 01:00 PM</td>
-                                    <td style="text-align: right;">
-                                        <div class="flex gap-2" style="justify-content: flex-end;">
-                                            <button class="btn btn-outline"
-                                                style="padding: 0.35rem 0.75rem; font-size: 0.85rem;">Edit</button>
-                                            <button class="btn btn-danger"
-                                                style="padding: 0.35rem 0.75rem; font-size: 0.85rem;">Delete</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="flex items-center gap-2">
-                                            <div class="avatar" style="width: 32px; height: 32px; font-size: 0.8rem;">MC
-                                            </div>
-                                            <strong>Dr. Michael Chen</strong>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge badge-info text-main"
-                                            style="background: rgba(14, 165, 233, 0.1);">Wednesday</span></td>
-                                    <td class="font-500">02:00 PM - 06:00 PM</td>
-                                    <td style="text-align: right;">
-                                        <div class="flex gap-2" style="justify-content: flex-end;">
-                                            <button class="btn btn-outline"
-                                                style="padding: 0.35rem 0.75rem; font-size: 0.85rem;">Edit</button>
-                                            <button class="btn btn-danger"
-                                                style="padding: 0.35rem 0.75rem; font-size: 0.85rem;">Delete</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="flex items-center gap-2">
-                                            <div class="avatar"
-                                                style="width: 32px; height: 32px; font-size: 0.8rem; background: var(--success); color: white; border: none;">
-                                                SJ</div>
-                                            <strong>Dr. Sarah Jenkins</strong>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge badge-info text-main"
-                                            style="background: rgba(14, 165, 233, 0.1);">Tuesday</span></td>
-                                    <td class="font-500">10:00 AM - 03:00 PM</td>
-                                    <td style="text-align: right;">
-                                        <div class="flex gap-2" style="justify-content: flex-end;">
-                                            <button class="btn btn-outline"
-                                                style="padding: 0.35rem 0.75rem; font-size: 0.85rem;">Edit</button>
-                                            <button class="btn btn-danger"
-                                                style="padding: 0.35rem 0.75rem; font-size: 0.85rem;">Delete</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
+                            <tbody id="scheduleTableBody"></tbody>
                         </table>
                     </div>
                 </main>
@@ -159,8 +89,330 @@
             <div id="footer"></div>
         </main>
     </div>
+
     <script src="../js/layout.js"></script>
     <script src="../js/dashboard.js"></script>
+
+    <script>
+        const API_BASE = 'http://localhost:8083';
+
+        // Tracks whether we are adding or editing, and which ID is being edited
+        let editingScheduleId = null;
+
+        // ── Auth ──────────────────────────────────────────────────────────────────
+        function getToken() {
+            return localStorage.getItem('token');
+        }
+
+        function authHeaders() {
+            return {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${getToken()}`
+            };
+        }
+
+        // ── Page load ─────────────────────────────────────────────────────────────
+        document.addEventListener('DOMContentLoaded', () => {
+            loadDoctors();
+            loadSchedules();
+        });
+
+        // ── Open form in ADD mode ─────────────────────────────────────────────────
+        function openAddForm() {
+            editingScheduleId = null;
+            document.getElementById('form-card-title').textContent = 'Add Operating Hours';
+            document.getElementById('form-submit-btn').textContent = 'Save Schedule';
+            document.getElementById('schedule-form-card').style.borderTopColor = 'var(--primary)';
+
+            // Clear fields
+            document.getElementById('doctorSelect').selectedIndex = 0;
+            document.getElementById('dateInput').value = '';
+            document.getElementById('startTimeInput').value = '';
+            document.getElementById('endTimeInput').value = '';
+
+            document.getElementById('schedule-form-card').style.display = 'block';
+        }
+
+        // ── Open form in EDIT mode, pre-filled with row data ─────────────────────
+        function openEditForm(id, doctorId, date, startTime, endTime) {
+            editingScheduleId = id;
+            document.getElementById('form-card-title').textContent = 'Edit Schedule';
+            document.getElementById('form-submit-btn').textContent = 'Update Schedule';
+            document.getElementById('schedule-form-card').style.borderTopColor = '#f59e0b';
+
+            // Pre-fill doctor dropdown
+            const select = document.getElementById('doctorSelect');
+            for (let i = 0; i < select.options.length; i++) {
+                if (parseInt(select.options[i].value) === parseInt(doctorId)) {
+                    select.selectedIndex = i;
+                    break;
+                }
+            }
+
+            // Pre-fill date and times
+            document.getElementById('dateInput').value = date;
+            document.getElementById('startTimeInput').value = startTime.substring(0, 5);
+            document.getElementById('endTimeInput').value = endTime.substring(0, 5);
+
+            document.getElementById('schedule-form-card').style.display = 'block';
+            document.getElementById('schedule-form-card').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // ── Close/reset form ──────────────────────────────────────────────────────
+        function closeForm() {
+            editingScheduleId = null;
+            document.getElementById('schedule-form-card').style.display = 'none';
+        }
+
+        // ── Single submit handler — decides add or update ─────────────────────────
+        function submitScheduleForm() {
+            if (editingScheduleId !== null) {
+                updateSchedule();
+            } else {
+                addSchedule();
+            }
+        }
+
+        // ── Load doctors into dropdown ────────────────────────────────────────────
+        async function loadDoctors() {
+            try {
+                const res = await fetch(`${API_BASE}/api/doctors`, {
+                    headers: authHeaders()
+                });
+
+                if (!res.ok) {
+                    console.error('Doctors API error:', res.status);
+                    return;
+                }
+
+                const doctors = await res.json();
+                console.log('Doctors received:', doctors);
+
+                const select = document.getElementById('doctorSelect');
+
+                doctors.forEach(doc => {
+                    const id = doc.id ?? doc.doctorId ?? doc.ID;
+                    const name = doc.name ?? doc.doctorName ?? doc.fullName ?? 'Unknown';
+
+                    if (id === undefined || id === null) {
+                        console.warn('Doctor has no ID field:', doc);
+                        return;
+                    }
+
+                    const option = document.createElement('option');
+                    option.value = String(id);
+                    option.textContent = name;
+                    select.appendChild(option);
+                });
+
+            } catch (err) {
+                console.error('Failed to load doctors:', err);
+            }
+        }
+
+        // ── Load all schedules into table ─────────────────────────────────────────
+        async function loadSchedules() {
+            try {
+                const res = await fetch(`${API_BASE}/api/schedules`, {
+                    headers: authHeaders()
+                });
+
+                if (!res.ok) {
+                    console.error('Schedules API error:', res.status);
+                    return;
+                }
+
+                const schedules = await res.json();
+                const tbody = document.getElementById('scheduleTableBody');
+                tbody.innerHTML = '';
+
+                if (schedules.length === 0) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="4" style="text-align:center; color:#888; padding: 2rem;">
+                                No schedules found.
+                            </td>
+                        </tr>`;
+                    return;
+                }
+
+                schedules.forEach(s => {
+                    // LocalDate → [2024,6,24] or "2024-06-24"
+                    let dateRaw, dateDisplay;
+                    if (Array.isArray(s.date)) {
+                        dateRaw = `${s.date[0]}-${String(s.date[1]).padStart(2, '0')}-${String(s.date[2]).padStart(2, '0')}`;
+                    } else {
+                        dateRaw = s.date;
+                    }
+                    dateDisplay = dateRaw;
+
+                    // LocalTime → [9,0] or "09:00:00"
+                    let startRaw, endRaw;
+                    if (Array.isArray(s.startTime)) {
+                        startRaw = `${String(s.startTime[0]).padStart(2, '0')}:${String(s.startTime[1]).padStart(2, '0')}:00`;
+                    } else {
+                        startRaw = String(s.startTime);
+                    }
+                    if (Array.isArray(s.endTime)) {
+                        endRaw = `${String(s.endTime[0]).padStart(2, '0')}:${String(s.endTime[1]).padStart(2, '0')}:00`;
+                    } else {
+                        endRaw = String(s.endTime);
+                    }
+
+                    const startDisplay = startRaw.substring(0, 5);
+                    const endDisplay = endRaw.substring(0, 5);
+                    const doctorName = s.doctor ? s.doctor.name : `Doctor #${s.doctorId}`;
+                    const doctorId = s.doctorId;
+
+                    tbody.innerHTML += `
+                        <tr>
+                            <td><strong>${doctorName}</strong></td>
+                            <td>${dateDisplay}</td>
+                            <td>${startDisplay} - ${endDisplay}</td>
+                            <td style="text-align: right;">
+                                <div class="flex gap-2" style="justify-content: flex-end;">
+                                    <button class="btn btn-outline"
+                                        style="padding: 0.35rem 0.75rem; font-size: 0.85rem;"
+                                        onclick="openEditForm(${s.id}, ${doctorId}, '${dateRaw}', '${startRaw}', '${endRaw}')">
+                                        Edit
+                                    </button>
+                                    <button class="btn btn-danger"
+                                        style="padding: 0.35rem 0.75rem; font-size: 0.85rem;"
+                                        onclick="deleteSchedule(${s.id})">
+                                        Delete
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>`;
+                });
+
+            } catch (err) {
+                console.error('Failed to load schedules:', err);
+            }
+        }
+
+        // ── Add new schedule (POST) ───────────────────────────────────────────────
+        async function addSchedule() {
+            const rawDoctorId = document.getElementById('doctorSelect').value;
+            const date = document.getElementById('dateInput').value;
+            const startTime = document.getElementById('startTimeInput').value;
+            const endTime = document.getElementById('endTimeInput').value;
+
+            if (!rawDoctorId) { alert('Please select a doctor.'); return; }
+            if (!date) { alert('Please select a date.'); return; }
+            if (!startTime) { alert('Please select a start time.'); return; }
+            if (!endTime) { alert('Please select an end time.'); return; }
+
+            const doctorId = parseInt(rawDoctorId, 10);
+            if (isNaN(doctorId)) { alert('Invalid doctor selected.'); return; }
+
+            const payload = {
+                doctorId: doctorId,
+                date: date,
+                startTime: startTime + ":00",
+                endTime: endTime + ":00"
+            };
+
+            console.log('Adding:', JSON.stringify(payload));
+
+            try {
+                const res = await fetch(`${API_BASE}/api/schedules`, {
+                    method: 'POST',
+                    headers: authHeaders(),
+                    body: JSON.stringify(payload)
+                });
+
+                if (res.status === 401) { alert('Session expired. Please login again.'); return; }
+
+                const result = await res.json();
+                console.log('Add result:', result);
+
+                if (result.status && result.status.includes('400')) {
+                    alert('Failed to save: ' + result.message);
+                    return;
+                }
+
+                closeForm();
+                loadSchedules();
+
+            } catch (err) {
+                console.error('Failed to save schedule:', err);
+                alert('Network error. Check console for details.');
+            }
+        }
+
+        // ── Update existing schedule (PUT) ────────────────────────────────────────
+        async function updateSchedule() {
+            const rawDoctorId = document.getElementById('doctorSelect').value;
+            const date = document.getElementById('dateInput').value;
+            const startTime = document.getElementById('startTimeInput').value;
+            const endTime = document.getElementById('endTimeInput').value;
+
+            if (!rawDoctorId) { alert('Please select a doctor.'); return; }
+            if (!date) { alert('Please select a date.'); return; }
+            if (!startTime) { alert('Please select a start time.'); return; }
+            if (!endTime) { alert('Please select an end time.'); return; }
+
+            const doctorId = parseInt(rawDoctorId, 10);
+            if (isNaN(doctorId)) { alert('Invalid doctor selected.'); return; }
+
+            const payload = {
+                doctorId: doctorId,
+                date: date,
+                startTime: startTime + ":00",
+                endTime: endTime + ":00"
+            };
+
+            console.log(`Updating ID ${editingScheduleId}:`, JSON.stringify(payload));
+
+            try {
+                const res = await fetch(`${API_BASE}/api/schedules/${editingScheduleId}`, {
+                    method: 'PUT',
+                    headers: authHeaders(),
+                    body: JSON.stringify(payload)
+                });
+
+                if (res.status === 401) { alert('Session expired. Please login again.'); return; }
+
+                const result = await res.json();
+                console.log('Update result:', result);
+
+                if (result.status && (result.status.includes('400') || result.status.includes('404'))) {
+                    alert('Failed to update: ' + result.message);
+                    return;
+                }
+
+                closeForm();
+                loadSchedules();
+
+            } catch (err) {
+                console.error('Failed to update schedule:', err);
+                alert('Network error. Check console for details.');
+            }
+        }
+
+        // ── Delete schedule (DELETE) ──────────────────────────────────────────────
+        async function deleteSchedule(id) {
+            if (!confirm('Delete this schedule?')) return;
+
+            try {
+                const res = await fetch(`${API_BASE}/api/schedules/${id}`, {
+                    method: 'DELETE',
+                    headers: authHeaders()
+                });
+
+                if (res.status === 401) { alert('Session expired. Please login again.'); return; }
+
+                const result = await res.json();
+                console.log('Delete result:', result);
+                loadSchedules();
+
+            } catch (err) {
+                console.error('Failed to delete schedule:', err);
+            }
+        }
+    </script>
+
 </body>
 
 </html>
