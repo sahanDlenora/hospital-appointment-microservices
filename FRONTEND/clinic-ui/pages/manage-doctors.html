@@ -12,11 +12,12 @@
 <body>
     <div class="app-layout">
         <div id="sidebar"></div>
+
         <main class="main-content">
             <div id="navbar"></div>
 
             <div class="content-area">
-                <main class="container p-0">
+                <div class="container p-0">
 
                     <div class="page-header flex justify-between items-center">
                         <div>
@@ -33,7 +34,8 @@
                         style="display: none; border-top: 4px solid var(--primary);">
                         <div class="flex justify-between items-center mb-3">
                             <h3 id="formTitle" style="margin: 0;">Add New Doctor</h3>
-                            <button class="btn btn-outline" style="padding: 0.2rem 0.5rem; border: none;"
+                            <button class="btn btn-outline"
+                                style="padding: 0.2rem 0.5rem; border: none;"
                                 id="closeAddDoctor">✕</button>
                         </div>
 
@@ -44,17 +46,17 @@
                                 <div class="form-group" style="flex: 1; min-width: 200px;">
                                     <label for="doctor-name">Full Name</label>
                                     <input type="text" id="doctor-name" class="form-control"
-                                        placeholder="Dr. Firstname Lastname" required />
+                                        placeholder="Dr. Firstname Lastname" />
                                 </div>
                                 <div class="form-group" style="flex: 1; min-width: 200px;">
                                     <label for="specialization">Specialization</label>
                                     <input type="text" id="specialization" class="form-control"
-                                        placeholder="e.g. Cardiologist" required />
+                                        placeholder="e.g. Cardiologist" />
                                 </div>
                                 <div class="form-group" style="flex: 1; min-width: 200px;">
                                     <label for="department">Department ID</label>
                                     <input type="number" id="department" class="form-control"
-                                        placeholder="e.g. 1" required />
+                                        placeholder="e.g. 1" />
                                 </div>
                             </div>
                             <div class="flex gap-3 mb-3" style="flex-wrap: wrap;">
@@ -72,11 +74,13 @@
                             </div>
 
                             <div id="formError"
-                                style="display:none; color: var(--danger); font-size: 0.875rem; margin-bottom: 0.75rem;">
+                                style="display: none; color: var(--danger); font-size: 0.875rem; margin-bottom: 0.75rem;">
                             </div>
 
                             <div class="text-right mt-3">
-                                <button type="submit" class="btn btn-primary">Save Doctor Profile</button>
+                                <button type="submit" class="btn btn-primary">
+                                    Save Doctor Profile
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -103,8 +107,9 @@
                         </table>
                     </div>
 
-                </main>
+                </div>
             </div>
+
             <div id="footer"></div>
         </main>
     </div>

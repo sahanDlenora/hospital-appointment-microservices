@@ -1,11 +1,16 @@
-
+// =============================================================
+// manage-doctors.js  —  Admin: Full CRUD for Doctors
+// API Gateway : http://localhost:8083/api/doctors
+// Auth        : JWT token + role read from localStorage
+// =============================================================
 
 const API_BASE = "http://localhost:8083/api/doctors";
 
-let pendingDeleteId = null; // ID waiting for delete confirmation
+let pendingDeleteId = null;
 
-
-// Auth helpers
+// ─────────────────────────────────────────────────────────────
+// Auth headers
+// ─────────────────────────────────────────────────────────────
 function getHeaders() {
     return {
         "Content-Type": "application/json",
@@ -14,9 +19,12 @@ function getHeaders() {
     };
 }
 
+// ─────────────────────────────────────────────────────────────
 // Toast
+// ─────────────────────────────────────────────────────────────
 function showToast(message, type = "success") {
     const toast = document.getElementById("toast");
+    if (!toast) return;
     toast.textContent = message;
     toast.style.background = type === "success" ? "var(--success)" : "var(--danger)";
     toast.style.display = "block";
@@ -24,48 +32,51 @@ function showToast(message, type = "success") {
     toast._t = setTimeout(() => (toast.style.display = "none"), 3000);
 }
 
-
+// ─────────────────────────────────────────────────────────────
 // Load & render table
+// ─────────────────────────────────────────────────────────────
 async function loadDoctors() {
-    const tbody = document.getElementById("doctorTableBody");
-    tbody.innerHTML = `
+    setTableContent(`
         <tr>
             <td colspan="4" style="text-align:center; padding:2rem; color:var(--text-muted);">
                 Loading doctors…
             </td>
-        </tr>`;
+        </tr>`);
 
     try {
         const res = await fetch(API_BASE, { headers: getHeaders() });
-        if (!res.ok) throw new Error(`Server responded with ${res.status}`);
+        if (!res.ok) throw new Error(`Server error: ${res.status}`);
 
         const doctors = await res.json();
 
         if (!doctors.length) {
-            tbody.innerHTML = `
+            setTableContent(`
                 <tr>
                     <td colspan="4" style="text-align:center; padding:2rem; color:var(--text-muted);">
                         No doctors found. Click <strong>Add New Doctor</strong> to get started.
                     </td>
-                </tr>`;
+                </tr>`);
             return;
         }
 
-        tbody.innerHTML = doctors.map(buildRow).join("");
+        document.getElementById("doctorTableBody").innerHTML =
+            doctors.map(buildRow).join("");
 
     } catch (err) {
-        tbody.innerHTML = `
+        setTableContent(`
             <tr>
                 <td colspan="4" style="text-align:center; padding:2rem; color:var(--danger);">
                     Failed to load doctors. ${err.message}
                 </td>
-            </tr>`;
+            </tr>`);
         showToast("Failed to load doctors", "error");
     }
 }
 
+// ─────────────────────────────────────────────────────────────
+// Build a single table row
+// ─────────────────────────────────────────────────────────────
 function buildRow(d) {
-    // Generate avatar initials from name
     const initials = (d.name || "?")
         .split(" ")
         .map((w) => w[0])
@@ -74,7 +85,12 @@ function buildRow(d) {
         .slice(0, 2);
 
     const deptName = d.department?.departmentName || "—";
-    const deptCode = d.department?.departmentCode  || "";
+    const deptCode = d.department?.departmentCode || "";
+
+    // Build dept code span separately to avoid nested template literals
+    const deptCodeHtml = deptCode
+        ? '<span style="color:var(--text-muted); font-weight:400;">(' + deptCode + ')</span>'
+        : "";
 
     return `
         <tr>
@@ -93,24 +109,24 @@ function buildRow(d) {
                 </span>
             </td>
             <td class="font-500">
-                ${deptName}
-                ${deptCode ? `<span style="color:var(--text-muted); font-weight:400;">(${deptCode})</span>` : ""}
+                ${deptName} ${deptCodeHtml}
             </td>
-            <td style="text-align: right;">
-                <div class="flex gap-2" style="justify-content: flex-end;">
+            <td style="text-align:right;">
+                <div class="flex gap-2" style="justify-content:flex-end;">
                     <button class="btn btn-outline"
-                        style="padding: 0.35rem 0.75rem; font-size: 0.85rem;"
+                        style="padding:0.35rem 0.75rem; font-size:0.85rem;"
                         onclick="openEditForm(${d.doctorId})">Edit</button>
                     <button class="btn btn-danger"
-                        style="padding: 0.35rem 0.75rem; font-size: 0.85rem;"
+                        style="padding:0.35rem 0.75rem; font-size:0.85rem;"
                         onclick="openDeleteModal(${d.doctorId})">Delete</button>
                 </div>
             </td>
         </tr>`;
 }
 
-
-// Add form — open / close
+// ─────────────────────────────────────────────────────────────
+// Open add form
+// ─────────────────────────────────────────────────────────────
 function openAddForm() {
     document.getElementById("formTitle").textContent = "Add New Doctor";
     document.getElementById("editDoctorId").value = "";
@@ -118,6 +134,33 @@ function openAddForm() {
     showCard();
 }
 
+// ─────────────────────────────────────────────────────────────
+// Open edit form — fetch doctor data then populate fields
+// ─────────────────────────────────────────────────────────────
+async function openEditForm(id) {
+    try {
+        const res = await fetch(`${API_BASE}/${id}`, { headers: getHeaders() });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const d = await res.json();
+
+        document.getElementById("formTitle").textContent    = "Edit Doctor";
+        document.getElementById("editDoctorId").value       = d.doctorId;
+        document.getElementById("doctor-name").value        = d.name           || "";
+        document.getElementById("specialization").value     = d.specialization || "";
+        document.getElementById("department").value         = d.department?.id || "";
+        document.getElementById("doc-email").value          = d.email          || "";
+        document.getElementById("doc-phone").value          = d.phone          || "";
+        hideFormError();
+        showCard();
+
+    } catch (err) {
+        showToast("Could not load doctor details", "error");
+    }
+}
+
+// ─────────────────────────────────────────────────────────────
+// Show / hide the form card
+// ─────────────────────────────────────────────────────────────
 function showCard() {
     const card = document.getElementById("add-doctor-card");
     card.style.display = "block";
@@ -135,30 +178,9 @@ function resetForm() {
     hideFormError();
 }
 
-
-// Edit form — fetch doctor then populate
-async function openEditForm(id) {
-    try {
-        const res = await fetch(`${API_BASE}/${id}`, { headers: getHeaders() });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const d = await res.json();
-
-        document.getElementById("formTitle").textContent   = "Edit Doctor";
-        document.getElementById("editDoctorId").value      = d.doctorId;
-        document.getElementById("doctor-name").value       = d.name            || "";
-        document.getElementById("specialization").value    = d.specialization  || "";
-        document.getElementById("department").value        = d.department?.id  || "";
-        document.getElementById("doc-email").value         = d.email           || "";
-        document.getElementById("doc-phone").value         = d.phone           || "";
-        hideFormError();
-        showCard();
-    } catch (err) {
-        showToast("Could not load doctor details", "error");
-    }
-}
-
-
+// ─────────────────────────────────────────────────────────────
 // Form submit — create or update
+// ─────────────────────────────────────────────────────────────
 async function handleFormSubmit(e) {
     e.preventDefault();
 
@@ -169,6 +191,7 @@ async function handleFormSubmit(e) {
     const phone          = document.getElementById("doc-phone").value.trim();
     const editId         = document.getElementById("editDoctorId").value;
 
+    // Validate
     if (!name || !specialization || !departmentId) {
         showFormError("Name, specialization and department ID are required.");
         return;
@@ -180,14 +203,14 @@ async function handleFormSubmit(e) {
         let res;
 
         if (editId) {
-            //UPDATE 
+            // UPDATE
             res = await fetch(`${API_BASE}/${editId}`, {
                 method: "PUT",
                 headers: getHeaders(),
                 body: JSON.stringify(payload),
             });
         } else {
-            // ── CREATE ──
+            // CREATE
             res = await fetch(API_BASE, {
                 method: "POST",
                 headers: getHeaders(),
@@ -210,8 +233,9 @@ async function handleFormSubmit(e) {
     }
 }
 
-
+// ─────────────────────────────────────────────────────────────
 // Delete
+// ─────────────────────────────────────────────────────────────
 function openDeleteModal(id) {
     pendingDeleteId = id;
     const overlay = document.getElementById("deleteOverlay");
@@ -225,7 +249,6 @@ function closeDeleteModal() {
 
 async function confirmDelete() {
     if (!pendingDeleteId) return;
-
     try {
         const res = await fetch(`${API_BASE}/${pendingDeleteId}`, {
             method: "DELETE",
@@ -241,34 +264,63 @@ async function confirmDelete() {
     }
 }
 
-
+// ─────────────────────────────────────────────────────────────
+// Form error helpers
+// ─────────────────────────────────────────────────────────────
 function showFormError(msg) {
     const el = document.getElementById("formError");
+    if (!el) return;
     el.textContent = msg;
     el.style.display = "block";
 }
 
 function hideFormError() {
     const el = document.getElementById("formError");
+    if (!el) return;
     el.textContent = "";
     el.style.display = "none";
 }
 
+// ─────────────────────────────────────────────────────────────
+// Helper
+// ─────────────────────────────────────────────────────────────
+function setTableContent(html) {
+    const tbody = document.getElementById("doctorTableBody");
+    if (!tbody) return;
+    tbody.innerHTML = html;
+}
 
-// Boot — wait for DOM to be fully parsed before wiring anything
+// ─────────────────────────────────────────────────────────────
+// Init
+// ─────────────────────────────────────────────────────────────
+// layout.js is async — it fetches navbar/sidebar/footer over
+// HTTP and injects them after DOMContentLoaded fires.
+// We listen for "layoutReady" which layout.js dispatches only
+// after ALL components are fully injected into the DOM.
+// ─────────────────────────────────────────────────────────────
+document.addEventListener("layoutReady", function () {
 
-document.addEventListener("DOMContentLoaded", function () {
+    // Wire buttons
+    document.getElementById("addDoctorBtn")
+        .addEventListener("click", openAddForm);
 
-    document.getElementById("addDoctorBtn").addEventListener("click", openAddForm);
-    document.getElementById("closeAddDoctor").addEventListener("click", hideCard);
-    document.getElementById("addDoctorForm").addEventListener("submit", handleFormSubmit);
-    document.getElementById("confirmDeleteBtn").addEventListener("click", confirmDelete);
-    document.getElementById("cancelDeleteBtn").addEventListener("click", closeDeleteModal);
+    document.getElementById("closeAddDoctor")
+        .addEventListener("click", hideCard);
 
-    // Close delete overlay when clicking the dark backdrop
-    document.getElementById("deleteOverlay").addEventListener("click", function (e) {
-        if (e.target === this) closeDeleteModal();
-    });
+    document.getElementById("addDoctorForm")
+        .addEventListener("submit", handleFormSubmit);
+
+    document.getElementById("confirmDeleteBtn")
+        .addEventListener("click", confirmDelete);
+
+    document.getElementById("cancelDeleteBtn")
+        .addEventListener("click", closeDeleteModal);
+
+    // Close delete overlay on backdrop click
+    document.getElementById("deleteOverlay")
+        .addEventListener("click", function (e) {
+            if (e.target === this) closeDeleteModal();
+        });
 
     // Load table data
     loadDoctors();
