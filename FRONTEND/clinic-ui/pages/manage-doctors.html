@@ -11,63 +11,78 @@
 
 <body>
     <div class="app-layout">
-        <!-- Sidebar -->
         <div id="sidebar"></div>
-
-        <!-- Main Content -->
         <main class="main-content">
             <div id="navbar"></div>
 
             <div class="content-area">
                 <main class="container p-0">
-                    <div class="page-header">
+
+                    <div class="page-header flex justify-between items-center">
                         <div>
                             <h2>Doctor Directory</h2>
                             <p class="text-muted mt-1">Manage specialist profiles and assignments.</p>
                         </div>
-                        <button class="btn btn-primary"
-                            onclick="document.getElementById('add-doctor-card').style.display='block'">
+                        <button class="btn btn-primary" id="addDoctorBtn">
                             <i>+</i> Add New Doctor
                         </button>
                     </div>
 
+                    <!-- Add / Edit Doctor Card -->
                     <div id="add-doctor-card" class="card mb-3"
                         style="display: none; border-top: 4px solid var(--primary);">
                         <div class="flex justify-between items-center mb-3">
-                            <h3 style="margin: 0;">Add New Doctor</h3>
+                            <h3 id="formTitle" style="margin: 0;">Add New Doctor</h3>
                             <button class="btn btn-outline" style="padding: 0.2rem 0.5rem; border: none;"
-                                onclick="document.getElementById('add-doctor-card').style.display='none'">✕</button>
+                                id="closeAddDoctor">✕</button>
                         </div>
-                        <form>
+
+                        <input type="hidden" id="editDoctorId" />
+
+                        <form id="addDoctorForm">
                             <div class="flex gap-3 mb-3" style="flex-wrap: wrap;">
-                                <div class="form-group" style="flex: 1; min-width: 200px; margin-bottom: 0;">
+                                <div class="form-group" style="flex: 1; min-width: 200px;">
                                     <label for="doctor-name">Full Name</label>
                                     <input type="text" id="doctor-name" class="form-control"
-                                        placeholder="Dr. Firstname Lastname">
+                                        placeholder="Dr. Firstname Lastname" required />
                                 </div>
-                                <div class="form-group" style="flex: 1; min-width: 200px; margin-bottom: 0;">
+                                <div class="form-group" style="flex: 1; min-width: 200px;">
                                     <label for="specialization">Specialization</label>
                                     <input type="text" id="specialization" class="form-control"
-                                        placeholder="e.g. Cardiologist">
+                                        placeholder="e.g. Cardiologist" required />
                                 </div>
-                                <div class="form-group" style="flex: 1; min-width: 200px; margin-bottom: 0;">
-                                    <label for="department">Department</label>
-                                    <select id="department" class="form-control">
-                                        <option value="" disabled selected>Select Department</option>
-                                        <option value="cardiology">Cardiology</option>
-                                        <option value="neurology">Neurology</option>
-                                        <option value="pediatrics">Pediatrics</option>
-                                        <option value="orthopedics">Orthopedics</option>
-                                    </select>
+                                <div class="form-group" style="flex: 1; min-width: 200px;">
+                                    <label for="department">Department ID</label>
+                                    <input type="number" id="department" class="form-control"
+                                        placeholder="e.g. 1" required />
                                 </div>
                             </div>
+                            <div class="flex gap-3 mb-3" style="flex-wrap: wrap;">
+                                <div class="form-group" style="flex: 1; min-width: 200px;">
+                                    <label for="doc-email">Email</label>
+                                    <input type="email" id="doc-email" class="form-control"
+                                        placeholder="doctor@clinic.com" />
+                                </div>
+                                <div class="form-group" style="flex: 1; min-width: 200px;">
+                                    <label for="doc-phone">Phone</label>
+                                    <input type="text" id="doc-phone" class="form-control"
+                                        placeholder="+94 77 123 4567" />
+                                </div>
+                                <div style="flex: 1; min-width: 200px;"></div>
+                            </div>
+
+                            <div id="formError"
+                                style="display:none; color: var(--danger); font-size: 0.875rem; margin-bottom: 0.75rem;">
+                            </div>
+
                             <div class="text-right mt-3">
-                                <button type="button" class="btn btn-primary">Save Doctor Profile</button>
+                                <button type="submit" class="btn btn-primary">Save Doctor Profile</button>
                             </div>
                         </form>
                     </div>
 
-                    <div class="table-container">
+                    <!-- Doctor Table -->
+                    <div class="table-container mt-3">
                         <table>
                             <thead>
                                 <tr>
@@ -77,76 +92,49 @@
                                     <th style="text-align: right;">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="doctorTableBody">
                                 <tr>
-                                    <td>
-                                        <div class="flex items-center gap-3">
-                                            <div class="avatar" style="width: 36px; height: 36px; font-size: 0.9rem;">SJ
-                                            </div>
-                                            <strong>Dr. Sarah Jenkins</strong>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge badge-neutral">Pediatrician</span></td>
-                                    <td class="text-main">Pediatrics</td>
-                                    <td style="text-align: right;">
-                                        <div class="flex gap-2" style="justify-content: flex-end;">
-                                            <button class="btn btn-outline"
-                                                style="padding: 0.35rem 0.75rem; font-size: 0.85rem;">Edit</button>
-                                            <button class="btn btn-danger"
-                                                style="padding: 0.35rem 0.75rem; font-size: 0.85rem;">Delete</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="flex items-center gap-3">
-                                            <div class="avatar"
-                                                style="width: 36px; height: 36px; font-size: 0.9rem; background: var(--success); color: white; border: none;">
-                                                MC</div>
-                                            <strong>Dr. Michael Chen</strong>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge badge-neutral">Cardiologist</span></td>
-                                    <td class="text-main">Cardiology</td>
-                                    <td style="text-align: right;">
-                                        <div class="flex gap-2" style="justify-content: flex-end;">
-                                            <button class="btn btn-outline"
-                                                style="padding: 0.35rem 0.75rem; font-size: 0.85rem;">Edit</button>
-                                            <button class="btn btn-danger"
-                                                style="padding: 0.35rem 0.75rem; font-size: 0.85rem;">Delete</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="flex items-center gap-3">
-                                            <div class="avatar"
-                                                style="width: 36px; height: 36px; font-size: 0.9rem; background: var(--warning); color: white; border: none;">
-                                                EB</div>
-                                            <strong>Dr. Emily Brown</strong>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge badge-neutral">Neurologist</span></td>
-                                    <td class="text-main">Neurology</td>
-                                    <td style="text-align: right;">
-                                        <div class="flex gap-2" style="justify-content: flex-end;">
-                                            <button class="btn btn-outline"
-                                                style="padding: 0.35rem 0.75rem; font-size: 0.85rem;">Edit</button>
-                                            <button class="btn btn-danger"
-                                                style="padding: 0.35rem 0.75rem; font-size: 0.85rem;">Delete</button>
-                                        </div>
+                                    <td colspan="4"
+                                        style="text-align: center; padding: 2rem; color: var(--text-muted);">
+                                        Loading doctors…
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
+
                 </main>
             </div>
             <div id="footer"></div>
         </main>
     </div>
+
+    <!-- Delete Confirmation Overlay -->
+    <div id="deleteOverlay"
+        style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45);
+               z-index: 1000; align-items: center; justify-content: center;">
+        <div class="card" style="max-width: 420px; width: 90%; margin: 0 auto;">
+            <h3 style="margin-bottom: 0.5rem;">Delete Doctor</h3>
+            <p class="text-muted" style="margin-bottom: 1.5rem;">
+                Are you sure you want to delete this doctor? This cannot be undone.
+            </p>
+            <div class="flex gap-2" style="justify-content: flex-end;">
+                <button class="btn btn-outline" id="cancelDeleteBtn">Cancel</button>
+                <button class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast"
+        style="display: none; position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 9999;
+               padding: 0.75rem 1.25rem; border-radius: 8px; font-size: 0.875rem;
+               color: #fff; box-shadow: 0 4px 16px rgba(0,0,0,0.2); min-width: 220px;">
+    </div>
+
     <script src="../js/layout.js"></script>
     <script src="../js/dashboard.js"></script>
+    <script src="../js/manage-doctors.js"></script>
 </body>
 
 </html>
