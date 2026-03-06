@@ -43,48 +43,48 @@
     </div>
 
     <script>
-        document.getElementById("loginForm").addEventListener("submit", async function (event) {
-            event.preventDefault();
+document.getElementById("loginForm").addEventListener("submit", async function(event) {
+    event.preventDefault();
 
-            const username = document.getElementById("username").value;
-            const password = document.getElementById("password").value;
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
 
-            try {
-                const response = await fetch("http://localhost:8083/auth/login", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        username: username,
-                        password: password
-                    })
-                });
-
-                if (!response.ok) {
-                    alert("Invalid credentials!");
-                    return;
-                }
-
-                const data = await response.json();
-
-                // Save token and role only — userId comes from token on backend
-                localStorage.setItem("token", data.token);
-                localStorage.setItem("role", data.role);
-
-                // Redirect based on role
-                if (data.role === "ADMIN") {
-                    window.location.href = "admin-dashboard.html";
-                } else {
-                    window.location.href = "patient-dashboard.html";
-                }
-
-            } catch (error) {
-                console.error("Error:", error);
-                alert("Server error!");
-            }
+    try {
+        const response = await fetch("http://localhost:8083/auth/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                username: username,
+                password: password
+            })
         });
-    </script>
+
+        if (!response.ok) {
+            alert("Invalid credentials!");
+            return;
+        }
+
+        const data = await response.json();
+
+        // Save token and role only — userId comes from token on backend
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("role", data.role);
+
+        // Redirect based on role
+        if (data.role === "ADMIN") {
+            window.location.href = "admin-dashboard.html";
+        } else {
+            window.location.href = "patient-dashboard.html";
+        }
+
+    } catch (error) {
+        console.error("Error:", error);
+        alert("Server error!");
+    }
+});
+</script>
 
 
 </body>

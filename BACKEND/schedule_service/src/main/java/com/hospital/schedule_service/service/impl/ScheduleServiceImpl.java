@@ -33,7 +33,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         ResponseDTO responseDTO = new ResponseDTO();
         try {
             DoctorResponseDTO doctor =
-                    doctorClient.getDoctorById(scheduleDTO.getDoctorId());
+                    doctorClient.getDoctorById(scheduleDTO.getDoctorId().longValue());
 
 
             Schedule schedule = new Schedule();
@@ -82,7 +82,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public ResponseDTO updateSchedule(long id, ScheduleDTO scheduleDTO) {
+    public ResponseDTO updateSchedule(int id, ScheduleDTO scheduleDTO) {
         ResponseDTO responseDTO = new ResponseDTO();
 
         Optional<Schedule> optionalSchedule = scheduleRepository.findById(id);
@@ -115,7 +115,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public ResponseDTO deleteSchedule(long id) {
+    public ResponseDTO deleteSchedule(int id) {
         ResponseDTO responseDTO = new ResponseDTO();
 
         if (scheduleRepository.existsById(id)) {

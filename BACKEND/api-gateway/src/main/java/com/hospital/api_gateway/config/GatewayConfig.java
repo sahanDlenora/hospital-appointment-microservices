@@ -41,13 +41,6 @@ public class GatewayConfig {
                 .route("auth-service", r -> r.path("/auth/**")
                         .uri("lb://AUTH-SERVICE"))
 
-                // Schedule service route with JWT filter
-                .route("schedule-service", r -> r.path("/api/schedules/**")
-                        .filters(f -> f.filter(jwtFilter))
-                        .uri("lb://SCHEDULE-SERVICE"))
-//                .route("schedule-service", r -> r.path("/api/schedules/**")
-//                        .uri("lb://SCHEDULE-SERVICE"))
-
                 .build();
     }
 }
