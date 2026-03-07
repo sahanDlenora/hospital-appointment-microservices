@@ -1,4 +1,4 @@
-package com.hospitalManagement.Appointment_Service.controller;
+package com.hospital.appointment_service.controller;
 
 import com.hospitalManagement.Appointment_Service.model.Appointment;
 import com.hospitalManagement.Appointment_Service.service.AppointmentService;

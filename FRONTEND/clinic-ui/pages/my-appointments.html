@@ -10,84 +10,227 @@
 </head>
 
 <body>
-    <div class="app-layout">
-        <div id="sidebar"></div>
-        <div class="main-content">
-            <div id="navbar"></div>
+<div class="app-layout">
+    <div id="sidebar"></div>
+    <div class="main-content">
+        <div id="navbar"></div>
 
-            <div class="content-area">
-                <main class="container p-0">
-                    <div class="page-header">
-                        <div>
-                            <h2>My Appointments</h2>
-                            <p class="text-muted mt-1">View your schedule and manage your health timeline.</p>
-                        </div>
-                        <a href="book-appointment.html" class="btn btn-primary">
-                            <i>+</i> Book New Appointment
-                        </a>
+        <div class="content-area">
+            <main class="container p-0">
+                <div class="page-header">
+                    <div>
+                        <h2>My Appointments</h2>
+                        <p class="text-muted mt-1">View your schedule and manage your health timeline.</p>
                     </div>
+                    <a href="book-appointment.html" class="btn btn-primary">
+                        <i>+</i> Book New Appointment
+                    </a>
+                </div>
 
-                    <div class="table-container mt-3">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Doctor</th>
-                                    <th>Department</th>
-                                    <th>Date</th>
-                                    <th>Time</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="flex items-center gap-2">
-                                            <div class="avatar" style="width: 32px; height: 32px; font-size: 12px;">MC
-                                            </div>
-                                            <strong>Dr. Michael Chen</strong>
-                                        </div>
-                                    </td>
-                                    <td><span class="text-muted">Cardiology</span></td>
-                                    <td class="font-500">March 15, 2026</td>
-                                    <td>10:00 AM</td>
-                                    <td><span class="badge badge-success">Confirmed</span></td>
-                                    <td>
-                                        <button class="btn btn-danger"
-                                            style="padding: 0.35rem 0.75rem; font-size: 0.85rem;">Cancel</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="flex items-center gap-2">
-                                            <div class="avatar"
-                                                style="width: 32px; height: 32px; font-size: 12px; background: var(--secondary); border:none;">
-                                                SJ</div>
-                                            <strong>Dr. Sarah Jenkins</strong>
-                                        </div>
-                                    </td>
-                                    <td><span class="text-muted">Pediatrics</span></td>
-                                    <td class="font-500 text-muted">February 10, 2026</td>
-                                    <td class="text-muted">11:30 AM</td>
-                                    <td><span class="badge badge-neutral">Completed</span></td>
-                                    <td>
-                                        <a href="feedback.html?doc=2" class="btn btn-outline"
-                                            style="padding: 0.35rem 0.75rem; font-size: 0.85rem; border-color: var(--warning); color: var(--warning);">
-                                            <i>⭐</i> Leave Feedback
-                                        </a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </main>
-            </div>
-            <div id="footer"></div>
+                <!-- Loading State -->
+                <div id="loading-state" style="text-align: center; padding: 3rem; color: var(--text-muted);">
+                    <p>⏳ Loading appointments...</p>
+                </div>
+
+                <!-- Error State -->
+                <div id="error-state" style="display:none; padding: 1rem; background: var(--danger-bg); color: #991B1B; border-radius: 12px; margin-bottom: 1rem;"></div>
+
+                <!-- Appointments Table -->
+                <div id="appointments-table" class="table-container mt-3" style="display:none;">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Doctor</th>
+                            <th>Date & Time</th>
+                            <th>Reason</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody id="appointments-tbody">
+                        <!-- Dynamic rows inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Empty State -->
+                <div id="empty-state" style="display:none; text-align: center; padding: 3rem; background: white; border-radius: 16px; border: 1px solid var(--border-color);">
+                    <p style="font-size: 2rem;">📅</p>
+                    <h3 style="margin: 1rem 0 0.5rem;">No Appointments Yet</h3>
+                    <p class="text-muted">Book your first appointment to get started.</p>
+                    <a href="book-appointment.html" class="btn btn-primary" style="margin-top: 1rem;">Book Now</a>
+                </div>
+
+            </main>
         </div>
+        <div id="footer"></div>
     </div>
-    <script src="../js/layout.js"></script>
-    <script src="../js/dashboard.js"></script>
-    <script src="../js/appointments.js"></script>
+</div>
+
+<script src="../js/layout.js"></script>
+<script src="../js/dashboard.js"></script>
+
+<script>
+    // ✅ Backend API Base URL
+    const API_BASE_URL = "http://localhost:8080";
+
+    // Doctor info map (doctorId => name, department)
+    // ⚠️ Doctor Service connect කරලා dynamic ගන්නත් පුළුවන්
+    const DOCTOR_MAP = {
+        1: { name: "Dr. Michael Chen", dept: "Cardiology", initials: "MC" },
+        2: { name: "Dr. Sarah Jenkins", dept: "Pediatrics", initials: "SJ" },
+        3: { name: "Dr. Emily Brown", dept: "Neurology", initials: "EB" }
+    };
+
+    // Page load වෙනකොට appointments load කරන්න
+    document.addEventListener('DOMContentLoaded', loadMyAppointments);
+
+    async function loadMyAppointments() {
+        const patientId = localStorage.getItem('userId');
+
+        if (!patientId) {
+            showError("Session expired. Please <a href='login.html'>login again</a>.");
+            document.getElementById('loading-state').style.display = 'none';
+            return;
+        }
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/appointment/patient/${patientId}`);
+
+            if (!response.ok) {
+                throw new Error(`Server error: ${response.status}`);
+            }
+
+            const appointments = await response.json();
+            renderAppointments(appointments);
+
+        } catch (error) {
+            console.error('Error loading appointments:', error);
+            showError(`❌ Could not load appointments. Make sure backend is running.<br><small>${error.message}</small>`);
+        } finally {
+            document.getElementById('loading-state').style.display = 'none';
+        }
+    }
+
+    function renderAppointments(appointments) {
+        const tbody = document.getElementById('appointments-tbody');
+        tbody.innerHTML = '';
+
+        if (!appointments || appointments.length === 0) {
+            document.getElementById('empty-state').style.display = 'block';
+            return;
+        }
+
+        document.getElementById('appointments-table').style.display = 'block';
+
+        appointments.forEach(appt => {
+            const doctor = DOCTOR_MAP[appt.doctorId] || {
+                name: `Doctor #${appt.doctorId}`,
+                dept: "General",
+                initials: "DR"
+            };
+
+            const dateTime = appt.appointmentTime
+                ? new Date(appt.appointmentTime)
+                : null;
+
+            const dateStr = dateTime
+                ? dateTime.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+                : 'N/A';
+
+            const timeStr = dateTime
+                ? dateTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })
+                : 'N/A';
+
+            const statusBadge = getStatusBadge(appt.status);
+            const actionBtn = getActionButton(appt);
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>
+                    <div class="flex items-center gap-2">
+                        <div class="avatar" style="width: 36px; height: 36px; font-size: 12px; background: var(--primary-light); color: var(--primary);">
+                            ${doctor.initials}
+                        </div>
+                        <div>
+                            <strong>${doctor.name}</strong>
+                            <div class="text-muted" style="font-size: 0.8rem;">${doctor.dept}</div>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div><strong>${dateStr}</strong></div>
+                    <div class="text-muted" style="font-size: 0.85rem;">${timeStr}</div>
+                </td>
+                <td class="text-muted">${appt.reason || '—'}</td>
+                <td><span class="badge badge-${statusBadge}">${appt.status || 'UNKNOWN'}</span></td>
+                <td>${actionBtn}</td>
+            `;
+            tbody.appendChild(row);
+        });
+
+        // Cancel buttons event listener
+        document.querySelectorAll('.cancel-btn').forEach(btn => {
+            btn.addEventListener('click', async function () {
+                const id = this.dataset.id;
+                if (confirm('Are you sure you want to cancel this appointment?')) {
+                    await cancelAppointment(id, this);
+                }
+            });
+        });
+    }
+
+    async function cancelAppointment(appointmentId, btnElement) {
+        try {
+            btnElement.disabled = true;
+            btnElement.textContent = '...';
+
+            const response = await fetch(`${API_BASE_URL}/appointment/${appointmentId}/cancel`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            if (response.ok) {
+                // Reload the appointments
+                loadMyAppointments();
+            } else {
+                alert('Failed to cancel appointment. Please try again.');
+                btnElement.disabled = false;
+                btnElement.textContent = 'Cancel';
+            }
+        } catch (error) {
+            console.error('Cancel error:', error);
+            alert('Server connection error.');
+            btnElement.disabled = false;
+            btnElement.textContent = 'Cancel';
+        }
+    }
+
+    function getStatusBadge(status) {
+        const map = {
+            'CONFIRMED': 'success',
+            'PENDING': 'warning',
+            'COMPLETED': 'neutral',
+            'CANCELLED': 'danger'
+        };
+        return map[status] || 'neutral';
+    }
+
+    function getActionButton(appt) {
+        if (appt.status === 'CONFIRMED' || appt.status === 'PENDING') {
+            return `<button class="btn btn-danger cancel-btn" data-id="${appt.id}" style="padding: 0.35rem 0.75rem; font-size: 0.85rem;">Cancel</button>`;
+        } else if (appt.status === 'COMPLETED') {
+            return `<a href="feedback.html?appointmentId=${appt.id}&docId=${appt.doctorId}" class="btn btn-outline" style="padding: 0.35rem 0.75rem; font-size: 0.85rem; border-color: var(--warning); color: var(--warning);">⭐ Leave Feedback</a>`;
+        }
+        return '<span class="text-muted" style="font-size: 0.85rem;">—</span>';
+    }
+
+    function showError(message) {
+        const errDiv = document.getElementById('error-state');
+        errDiv.style.display = 'block';
+        errDiv.innerHTML = message;
+    }
+</script>
 </body>
 
 </html>

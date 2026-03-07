@@ -10,75 +10,172 @@
 </head>
 
 <body>
-    <div class="app-layout">
-        <div id="sidebar"></div>
-        <div class="main-content">
-            <div id="navbar"></div>
+<div class="app-layout">
+    <div id="sidebar"></div>
+    <div class="main-content">
+        <div id="navbar"></div>
 
-            <div class="content-area">
-                <main class="container p-0">
-                    <div class="page-header">
-                        <div>
-                            <h2>Book an Appointment</h2>
-                            <p class="text-muted mt-1">Schedule your next visit safely and securely.</p>
-                        </div>
+        <div class="content-area">
+            <main class="container p-0">
+                <div class="page-header">
+                    <div>
+                        <h2>Book an Appointment</h2>
+                        <p class="text-muted mt-1">Schedule your next visit safely and securely.</p>
                     </div>
+                </div>
 
-                    <div class="card" style="max-width: 700px; margin: 0 auto;">
-                        <form action="my-appointments.html">
-                            <div class="form-group mb-3">
-                                <label for="doctor">Select Specialist</label>
-                                <select id="doctor" class="form-control" required style="padding: 1rem;">
-                                    <option value="" disabled selected>— Choose your preferred doctor —</option>
-                                    <option value="1">Dr. Michael Chen (Cardiology)</option>
-                                    <option value="2">Dr. Sarah Jenkins (Pediatrics)</option>
-                                    <option value="3">Dr. Emily Brown (Neurology)</option>
+                <!-- Success / Error Messages -->
+                <div id="alert-box" style="display:none; margin-bottom: 1rem;"></div>
+
+                <div class="card" style="max-width: 700px; margin: 0 auto;">
+                    <form id="bookingForm">
+                        <div class="form-group mb-3">
+                            <label for="doctor">Select Specialist</label>
+                            <select id="doctor" class="form-control" required style="padding: 1rem;">
+                                <option value="" disabled selected>— Choose your preferred doctor —</option>
+                                <option value="1">Dr. Michael Chen (Cardiology)</option>
+                                <option value="2">Dr. Sarah Jenkins (Pediatrics)</option>
+                                <option value="3">Dr. Emily Brown (Neurology)</option>
+                            </select>
+                        </div>
+
+                        <div class="flex gap-3 mb-3" style="flex-wrap: wrap;">
+                            <div class="form-group" style="flex: 1; min-width: 250px; margin-bottom: 0;">
+                                <label for="date">Select Date</label>
+                                <input type="date" id="date" class="form-control" required style="padding: 1rem;">
+                            </div>
+                            <div class="form-group" style="flex: 1; min-width: 250px; margin-bottom: 0;">
+                                <label for="time">Select Time Slot</label>
+                                <select id="time" class="form-control" required style="padding: 1rem;">
+                                    <option value="" disabled selected>— Select an available time —</option>
+                                    <option value="09:00">09:00 AM</option>
+                                    <option value="09:30">09:30 AM</option>
+                                    <option value="10:00">10:00 AM</option>
+                                    <option value="10:30">10:30 AM</option>
+                                    <option value="11:00">11:00 AM</option>
+                                    <option value="14:00">02:00 PM</option>
+                                    <option value="14:30">02:30 PM</option>
+                                    <option value="15:00">03:00 PM</option>
                                 </select>
                             </div>
+                        </div>
 
-                            <div class="flex gap-3 mb-3" style="flex-wrap: wrap;">
-                                <div class="form-group" style="flex: 1; min-width: 250px; margin-bottom: 0;">
-                                    <label for="date">Select Date</label>
-                                    <input type="date" id="date" class="form-control" required style="padding: 1rem;">
-                                </div>
-                                <div class="form-group" style="flex: 1; min-width: 250px; margin-bottom: 0;">
-                                    <label for="time">Select Time Slot</label>
-                                    <select id="time" class="form-control" required style="padding: 1rem;">
-                                        <option value="" disabled selected>— Select an available time —</option>
-                                        <option value="09:00">09:00 AM</option>
-                                        <option value="09:30">09:30 AM</option>
-                                        <option value="10:00">10:00 AM</option>
-                                        <option value="10:30">10:30 AM</option>
-                                        <option value="11:00">11:00 AM</option>
-                                        <option value="14:00">02:00 PM</option>
-                                        <option value="14:30">02:30 PM</option>
-                                        <option value="15:00">03:00 PM</option>
-                                    </select>
-                                </div>
-                            </div>
+                        <div class="form-group mb-3">
+                            <label for="reason">Reason for Visit <span class="text-muted font-400">(Optional)</span></label>
+                            <textarea id="reason" class="form-control" rows="4" style="padding: 1rem;"
+                                      placeholder="Briefly describe your symptoms..."></textarea>
+                        </div>
 
-                            <div class="form-group mb-3">
-                                <label for="reason">Reason for Visit <span
-                                        class="text-muted font-400">(Optional)</span></label>
-                                <textarea id="reason" class="form-control" rows="4" style="padding: 1rem;"
-                                    placeholder="Briefly describe your symptoms or the reason for your visit right now..."></textarea>
-                            </div>
-
-                            <div class="mt-4 pt-3" style="border-top: 1px solid var(--border-color);">
-                                <button type="submit" class="btn btn-primary"
+                        <div class="mt-4 pt-3" style="border-top: 1px solid var(--border-color);">
+                            <button type="button" id="submitBtn" onclick="bookAppointment()" class="btn btn-primary"
                                     style="width: 100%; font-size: 1.1rem; padding: 1rem; justify-content: center;">
-                                    <i>📅</i> Confirm Booking
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </main>
-            </div>
-            <div id="footer"></div>
+                                <i>📅</i> Confirm Booking
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </main>
         </div>
+        <div id="footer"></div>
     </div>
-    <script src="../js/layout.js"></script>
-    <script src="../js/dashboard.js"></script>
+</div>
+
+<script src="../js/layout.js"></script>
+<script src="../js/dashboard.js"></script>
+
+<script>
+    // ✅ Backend API URL - ඔයාගේ Spring Boot port එකට match කරන්න
+    const API_BASE_URL = "http://localhost:8080";
+
+    async function bookAppointment() {
+        const doctorId = document.getElementById('doctor').value;
+        const date = document.getElementById('date').value;
+        const time = document.getElementById('time').value;
+        const reason = document.getElementById('reason').value;
+
+        // Validation
+        if (!doctorId || !date || !time) {
+            showAlert("Please fill all required fields!", "danger");
+            return;
+        }
+
+        // Patient ID - localStorage එකෙන් ගන්නවා (login වෙලා save කරන්න ඕන)
+        const patientId = localStorage.getItem('userId');
+        if (!patientId) {
+            showAlert("Session expired. Please login again.", "danger");
+            window.location.href = "login.html";
+            return;
+        }
+
+        // Date + Time combine කරන්න (LocalDateTime format)
+        const appointmentDateTime = `${date}T${time}:00`;
+
+        const appointmentData = {
+            patientId: parseInt(patientId),
+            doctorId: parseInt(doctorId),
+            scheduleId: null,   // Schedule service integrate කරලා නැත්නම් null
+            appointmentTime: appointmentDateTime,
+            reason: reason || "",
+            status: "PENDING"
+        };
+
+        // Submit button disable
+        const btn = document.getElementById('submitBtn');
+        btn.disabled = true;
+        btn.innerHTML = '⏳ Booking...';
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/appointment/book`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(appointmentData)
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                showAlert("✅ Appointment booked successfully! Redirecting...", "success");
+
+                setTimeout(() => {
+                    window.location.href = "my-appointments.html";
+                }, 2000);
+            } else {
+                const errorText = await response.text();
+                showAlert(`❌ Booking failed: ${errorText}`, "danger");
+                btn.disabled = false;
+                btn.innerHTML = '📅 Confirm Booking';
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            showAlert("❌ Could not connect to server. Make sure backend is running on port 8080.", "danger");
+            btn.disabled = false;
+            btn.innerHTML = '📅 Confirm Booking';
+        }
+    }
+
+    function showAlert(message, type) {
+        const alertBox = document.getElementById('alert-box');
+        const colorMap = {
+            success: { bg: 'var(--success-bg)', color: '#065F46', border: 'var(--success)' },
+            danger: { bg: 'var(--danger-bg)', color: '#991B1B', border: 'var(--danger)' },
+            warning: { bg: 'var(--warning-bg)', color: '#92400E', border: 'var(--warning)' }
+        };
+        const colors = colorMap[type] || colorMap.warning;
+        alertBox.style.display = 'block';
+        alertBox.style.cssText = `
+            display: block;
+            padding: 1rem 1.5rem;
+            background: ${colors.bg};
+            color: ${colors.color};
+            border: 1px solid ${colors.border};
+            border-radius: 12px;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        `;
+        alertBox.innerHTML = message;
+    }
+</script>
 </body>
 
 </html>
