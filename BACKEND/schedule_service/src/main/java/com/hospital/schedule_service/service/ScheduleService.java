@@ -9,6 +9,6 @@ import java.util.List;
 public interface ScheduleService {
     ResponseDTO saveSchedule(ScheduleDTO scheduleDTO);
     List<ScheduleDTO> getAllSchedules();
-    ResponseDTO updateSchedule(int id, ScheduleDTO scheduleDTO);
-    ResponseDTO deleteSchedule(int id);
+    ResponseDTO updateSchedule(long id, ScheduleDTO scheduleDTO);
+    ResponseDTO deleteSchedule(long id);
 }
