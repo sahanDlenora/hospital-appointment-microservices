@@ -40,14 +40,16 @@ spring:
           predicates:
             - Path=/api/schedules/**
 
+        - id: appointment-service
+          uri: lb://APPOINTMENT-SERVICE
+          predicates:
+            - Path=/appointment/**
+
 
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
-  instance:
-    prefer-ip-address: true
-    ip-address: 127.0.0.1
 
 jwt:
   secret: nXGv6WQmZc7y1q3lV2t9Rk8pHs4aYd0uJfL5sB2cT8E=

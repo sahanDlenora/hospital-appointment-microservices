@@ -1,7 +1,7 @@
 package com.hospital.appointment_service.controller;
 
-import com.hospitalManagement.Appointment_Service.model.Appointment;
-import com.hospitalManagement.Appointment_Service.service.AppointmentService;
+import com.hospital.appointment_service.model.Appointment;
+import com.hospital.appointment_service.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +15,7 @@ public class AppointmentController {
     @Autowired
     private AppointmentService appointmentService;
 
+
     @PostMapping("/book")
     public ResponseEntity<Appointment> bookAppointment(@RequestBody Appointment appointment) {
         Appointment savedAppointment = appointmentService.createAppointment(appointment);
@@ -26,35 +27,45 @@ public class AppointmentController {
         return ResponseEntity.ok(appointmentService.getAllAppointments());
     }
 
+
     @GetMapping("/{id}")
     public ResponseEntity<Appointment> getAppointmentById(@PathVariable Long id) {
         return appointmentService.getAppointmentById(id)
-                .map(appointment -> ResponseEntity.ok().body(appointment))
+                .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+
+
+    @GetMapping("/patient/{patientId}")
+    public ResponseEntity<List<Appointment>> getAppointmentsByPatient(@PathVariable Long patientId) {
+        List<Appointment> appointments = appointmentService.getAppointmentsByPatientId(patientId);
+        return ResponseEntity.ok(appointments);
+    }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<Appointment> updateAppointment(@PathVariable Long id, @RequestBody Appointment details) {
-        return appointmentService.getAppointmentById(id)
-                .map(appointment -> {
-                    appointment.setPatientId(details.getPatientId());
-                    appointment.setDoctorId(details.getDoctorId());
-                    appointment.setStatus(details.getStatus());
-
-                    return ResponseEntity.ok(appointmentService.createAppointment(appointment));
-                })
-                .orElse(ResponseEntity.notFound().build());
+        try {
+            Appointment updated = appointmentService.updateAppointment(id, details);
+            return ResponseEntity.ok(updated);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
+
+
+    @PutMapping("/{id}/cancel")
+    public ResponseEntity<Appointment> cancelAppointment(@PathVariable Long id) {
+        return appointmentService.getAppointmentById(id).map(appointment -> {
+            appointment.setStatus("CANCELLED");
+            return ResponseEntity.ok(appointmentService.updateAppointment(id, appointment));
+        }).orElse(ResponseEntity.notFound().build());
+    }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAppointment(@PathVariable Long id) {
         appointmentService.deleteAppointmentById(id);
         return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/patient/{userId}")
-    public ResponseEntity<List<Appointment>> getAppointmentsByUserId(@PathVariable Long userId) {
-        List<Appointment> appointments = appointmentService.getAppointmentsByPatientId(userId);
-        return ResponseEntity.ok(appointments);
     }
 }

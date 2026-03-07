@@ -4,91 +4,556 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Appointments - ClinicCare</title>
+    <title>Appointments - ClinicCare Admin</title>
     <link rel="stylesheet" href="../css/layout.css">
     <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* ── Badges ── */
+        .badge { padding: 4px 10px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: .4px; }
+        .badge-success   { background: #d1fae5; color: #065f46; }
+        .badge-warning   { background: #fef3c7; color: #92400e; }
+        .badge-info      { background: #dbeafe; color: #1e40af; }
+        .badge-danger    { background: #fee2e2; color: #991b1b; }
+        .badge-secondary { background: #f3f4f6; color: #374151; }
+
+        /* ── Toolbar ── */
+        .toolbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 16px; }
+        .toolbar input,
+        .toolbar select { padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 0.9rem; outline: none; background: #fff; }
+        .toolbar input:focus,
+        .toolbar select:focus { border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,.15); }
+
+        /* ── Buttons ── */
+        .btn { padding: 8px 16px; border: none; border-radius: 8px; cursor: pointer; font-size: 0.88rem; font-weight: 600; transition: .2s; }
+        .btn-primary   { background: #6366f1; color: #fff; }
+        .btn-primary:hover  { background: #4f46e5; }
+        .btn-secondary { background: #f3f4f6; color: #374151; }
+        .btn-secondary:hover { background: #e5e7eb; }
+        .btn-danger    { background: #ef4444; color: #fff; font-size: 0.8rem; padding: 5px 10px; }
+        .btn-danger:hover   { background: #dc2626; }
+        .btn-edit      { background: #f59e0b; color: #fff; font-size: 0.8rem; padding: 5px 10px; }
+        .btn-edit:hover { background: #d97706; }
+        .btn:disabled  { opacity: .6; cursor: not-allowed; }
+
+        /* ── Table ── */
+        table { width: 100%; border-collapse: collapse; }
+        thead tr { background: #f9fafb; }
+        th { padding: 12px 14px; text-align: left; font-size: 0.82rem; text-transform: uppercase; letter-spacing: .6px; color: #6b7280; border-bottom: 1px solid #e5e7eb; }
+        td { padding: 12px 14px; border-bottom: 1px solid #f3f4f6; font-size: 0.9rem; color: #374151; vertical-align: middle; }
+        tr:hover td { background: #f9fafb; }
+        .actions-cell { display: flex; gap: 6px; }
+
+        /* ── Modal ── */
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 999; align-items: center; justify-content: center; }
+        .modal-overlay.open { display: flex; }
+        .modal { background: #fff; border-radius: 14px; padding: 28px; width: 100%; max-width: 520px; box-shadow: 0 20px 60px rgba(0,0,0,.2); max-height: 90vh; overflow-y: auto; }
+        .modal h3 { margin: 0 0 18px; font-size: 1.1rem; color: #111827; }
+        .form-group { margin-bottom: 14px; }
+        .form-group label { display: block; font-size: 0.82rem; font-weight: 600; color: #374151; margin-bottom: 5px; }
+        .form-group input,
+        .form-group select { width: 100%; padding: 9px 12px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 0.9rem; box-sizing: border-box; outline: none; }
+        .form-group input:focus,
+        .form-group select:focus { border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,.15); }
+        .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 18px; }
+
+        /* ── States ── */
+        .state-row td { text-align: center; padding: 40px; color: #9ca3af; font-size: 0.95rem; }
+        .spinner { display: inline-block; width: 22px; height: 22px; border: 3px solid #e5e7eb; border-top-color: #6366f1; border-radius: 50%; animation: spin .7s linear infinite; vertical-align: middle; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ── Toast ── */
+        .toast { position: fixed; bottom: 24px; right: 24px; background: #111827; color: #fff; padding: 12px 20px; border-radius: 10px; font-size: 0.88rem; z-index: 9999; opacity: 0; transform: translateY(10px); transition: .3s; pointer-events: none; }
+        .toast.show { opacity: 1; transform: translateY(0); }
+    </style>
 </head>
 
 <body>
-    <div class="app-layout">
-        <!-- Sidebar -->
-        <div id="sidebar"></div>
+<div class="app-layout">
+    <div id="sidebar"></div>
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <div id="navbar"></div>
+    <main class="main-content">
+        <div id="navbar"></div>
 
-            <div class="content-area">
-                <main class="container p-0">
-                    <div class="page-header">
-                        <div>
-                            <h2>Recent Appointments</h2>
-                            <p class="text-muted mt-1">Manage and track all patient appointments.</p>
-                        </div>
+        <div class="content-area">
+            <main class="container p-0">
+
+                <div class="page-header">
+                    <div>
+                        <h2>Appointments</h2>
+                        <p class="text-muted mt-1">Manage and track all patient appointments.</p>
                     </div>
+                    <button class="btn btn-primary" onclick="openCreateModal()">+ Book Appointment</button>
+                </div>
 
-                    <div class="table-container mt-3">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Patient</th>
-                                    <th>Doctor</th>
-                                    <th>Schedule</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="text-muted font-500">#APT-9042</td>
-                                    <td><strong>John Doe</strong></td>
-                                    <td>Dr. Michael Chen</td>
-                                    <td>
-                                        <span style="display: block;">Mar 05, 2026</span>
-                                        <span class="text-muted" style="font-size: 0.85rem;">10:00 AM</span>
-                                    </td>
-                                    <td><span class="badge badge-success">Confirmed</span></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-muted font-500">#APT-9043</td>
-                                    <td><strong>Jane Smith</strong></td>
-                                    <td>Dr. Sarah Jenkins</td>
-                                    <td>
-                                        <span style="display: block;">Mar 06, 2026</span>
-                                        <span class="text-muted" style="font-size: 0.85rem;">11:30 AM</span>
-                                    </td>
-                                    <td><span class="badge badge-warning">Pending</span></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-muted font-500">#APT-9044</td>
-                                    <td><strong>Robert Johnson</strong></td>
-                                    <td>Dr. Emily Brown</td>
-                                    <td>
-                                        <span style="display: block;">Mar 04, 2026</span>
-                                        <span class="text-muted" style="font-size: 0.85rem;">02:15 PM</span>
-                                    </td>
-                                    <td><span class="badge badge-info">Completed</span></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-muted font-500">#APT-9045</td>
-                                    <td><strong>Alice Cooper</strong></td>
-                                    <td>Dr. Michael Chen</td>
-                                    <td>
-                                        <span style="display: block;">Mar 05, 2026</span>
-                                        <span class="text-muted" style="font-size: 0.85rem;">09:30 AM</span>
-                                    </td>
-                                    <td><span class="badge badge-danger">Cancelled</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </main>
-            </div>
-            <div id="footer"></div>
-        </main>
+                <div class="toolbar mt-3">
+                    <input type="text" id="searchInput" placeholder="Search by ID, patient ID, doctor ID…"
+                           oninput="filterTable()" style="flex:1;min-width:200px;">
+                    <select id="statusFilter" onchange="filterTable()">
+                        <option value="">All Statuses</option>
+                        <option value="PENDING">Pending</option>
+                        <option value="CONFIRMED">Confirmed</option>
+                        <option value="COMPLETED">Completed</option>
+                        <option value="CANCELLED">Cancelled</option>
+                    </select>
+                    <button class="btn btn-primary" onclick="loadAppointments()">&#8635; Refresh</button>
+                </div>
+
+                <div class="table-container mt-1">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Patient ID</th>
+                                <th>Doctor ID</th>
+                                <th>Schedule ID</th>
+                                <th>Appointment Time</th>
+                                <th>Reason</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="appointmentsBody">
+                            <tr class="state-row">
+                                <td colspan="8"><span class="spinner"></span> Loading&hellip;</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </main>
+        </div>
+
+        <div id="footer"></div>
+    </main>
+</div>
+
+<!-- ══ Book / Edit Modal ══ -->
+<div class="modal-overlay" id="appointmentModal">
+    <div class="modal">
+        <h3 id="modalTitle">Book Appointment</h3>
+
+        <div class="form-group">
+            <label>Patient ID</label>
+            <input type="number" id="fieldPatientId" placeholder="Enter patient ID (e.g. 1)" min="1">
+        </div>
+
+        <div class="form-group">
+            <label>Doctor</label>
+            <select id="fieldDoctorId">
+                <option value="">— Loading doctors… —</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Schedule</label>
+            <select id="fieldScheduleId">
+                <option value="">— Loading schedules… —</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Appointment Date &amp; Time</label>
+            <input type="datetime-local" id="fieldAppointmentTime">
+        </div>
+
+        <div class="form-group">
+            <label>Reason</label>
+            <input type="text" id="fieldReason" placeholder="e.g. Routine checkup">
+        </div>
+
+        <div class="form-group">
+            <label>Status</label>
+            <select id="fieldStatus">
+                <option value="PENDING">Pending</option>
+                <option value="CONFIRMED">Confirmed</option>
+                <option value="COMPLETED">Completed</option>
+                <option value="CANCELLED">Cancelled</option>
+            </select>
+        </div>
+
+        <div class="modal-actions">
+            <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+            <button class="btn btn-primary" id="modalSubmitBtn" onclick="submitAppointment()">Book</button>
+        </div>
     </div>
-    <script src="../js/layout.js"></script>
-    <script src="../js/dashboard.js"></script>
-</body>
+</div>
 
+<!-- ══ Delete Confirm Modal ══ -->
+<div class="modal-overlay" id="deleteModal">
+    <div class="modal" style="max-width:380px;">
+        <h3>Confirm Delete</h3>
+        <p style="color:#6b7280;font-size:.93rem;">
+            Are you sure you want to delete appointment
+            <strong id="deleteIdLabel"></strong>?
+            This cannot be undone.
+        </p>
+        <div class="modal-actions">
+            <button class="btn btn-secondary" onclick="closeDeleteModal()">Cancel</button>
+            <button class="btn btn-danger"    onclick="confirmDelete()">Delete</button>
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="../js/layout.js"></script>
+
+<script>
+// ════════════════════════════════════════════════════════════════
+// CONFIG  — matches your GatewayConfig.java route definitions
+// ════════════════════════════════════════════════════════════════
+//
+//  Gateway route                 → Microservice controller
+//  /appointment/**               → APPOINTMENT-SERVICE  @RequestMapping("/appointment")
+//  /api/doctors/**               → DOCTOR-SERVICE       @RequestMapping("/api/doctors")
+//  /api/schedules/**             → SCHEDULE-SERVICE     @RequestMapping("/api/schedules")
+//
+const GATEWAY       = "http://localhost:8083";
+const APT_URL       = GATEWAY + "/appointment";      // appointment-service
+const DOCTORS_URL   = GATEWAY + "/api/doctors";      // doctor-service
+const SCHEDULES_URL = GATEWAY + "/api/schedules";    // schedule-service
+
+// ════════════════════════════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════════════════════════════
+var allAppointments = [];
+var editingId       = null;   // null = create, number = edit
+var deletingId      = null;
+
+// ════════════════════════════════════════════════════════════════
+// HELPERS
+// ════════════════════════════════════════════════════════════════
+
+function fetchOptions(method, body) {
+    var token = localStorage.getItem("token");
+    var opts = {
+        method: method || "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    };
+    if (token) opts.headers["Authorization"] = "Bearer " + token;
+    if (body)  opts.body = JSON.stringify(body);
+    return opts;
+}
+
+function showToast(msg, isError) {
+    var t = document.getElementById("toast");
+    t.textContent = msg;
+    t.style.background = isError ? "#dc2626" : "#111827";
+    t.classList.add("show");
+    setTimeout(function(){ t.classList.remove("show"); }, 3200);
+}
+
+// Spring Boot serializes LocalDateTime as array [y,m,d,h,min,s] OR ISO string.
+function formatDateTime(val) {
+    if (!val) return "—";
+    try {
+        var d;
+        if (Array.isArray(val)) {
+            d = new Date(val[0], val[1]-1, val[2], val[3]||0, val[4]||0, val[5]||0);
+        } else {
+            d = new Date(val);
+        }
+        return d.toLocaleString("en-US", { month:"short", day:"2-digit", year:"numeric", hour:"2-digit", minute:"2-digit" });
+    } catch(e) { return String(val); }
+}
+
+// Convert Spring LocalDateTime to "YYYY-MM-DDTHH:mm" for datetime-local input
+function toDatetimeLocal(val) {
+    if (!val) return "";
+    try {
+        var d;
+        if (Array.isArray(val)) {
+            d = new Date(val[0], val[1]-1, val[2], val[3]||0, val[4]||0);
+        } else {
+            d = new Date(val);
+        }
+        return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+    } catch(e) { return ""; }
+}
+
+function statusBadge(status) {
+    var map = { CONFIRMED:"badge-success", PENDING:"badge-warning", COMPLETED:"badge-info", CANCELLED:"badge-danger" };
+    var cls = map[(status||"").toUpperCase()] || "badge-secondary";
+    return '<span class="badge ' + cls + '">' + (status || "Unknown") + '</span>';
+}
+
+// ════════════════════════════════════════════════════════════════
+// LOAD APPOINTMENTS  →  GET /appointment/all
+// ════════════════════════════════════════════════════════════════
+async function loadAppointments() {
+    var tbody = document.getElementById("appointmentsBody");
+    tbody.innerHTML = '<tr class="state-row"><td colspan="8"><span class="spinner"></span> Loading&hellip;</td></tr>';
+
+    try {
+        var res = await fetch(APT_URL + "/all", fetchOptions("GET"));
+
+        if (res.status === 401) {
+            tbody.innerHTML = '<tr class="state-row"><td colspan="8">&#128274; Unauthorized — please log in again.</td></tr>';
+            return;
+        }
+        if (!res.ok) throw new Error("Server error " + res.status);
+
+        allAppointments = await res.json();
+        renderTable(allAppointments);
+
+    } catch(err) {
+        console.error(err);
+        tbody.innerHTML = '<tr class="state-row"><td colspan="8">&#9888;&#65039; Failed to load appointments. Is the gateway running?</td></tr>';
+    }
+}
+
+// ════════════════════════════════════════════════════════════════
+// RENDER TABLE
+// ════════════════════════════════════════════════════════════════
+function renderTable(data) {
+    var tbody = document.getElementById("appointmentsBody");
+
+    if (!data || data.length === 0) {
+        tbody.innerHTML = '<tr class="state-row"><td colspan="8">No appointments found.</td></tr>';
+        return;
+    }
+
+    tbody.innerHTML = data.map(function(apt) {
+        return '<tr>' +
+            '<td class="text-muted font-500">#APT-' + apt.id + '</td>' +
+            '<td>' + (apt.patientId  || "—") + '</td>' +
+            '<td>' + (apt.doctorId   || "—") + '</td>' +
+            '<td>' + (apt.scheduleId || "—") + '</td>' +
+            '<td>' + formatDateTime(apt.appointmentTime) + '</td>' +
+            '<td>' + (apt.reason || "—") + '</td>' +
+            '<td>' + statusBadge(apt.status) + '</td>' +
+            '<td><div class="actions-cell">' +
+                '<button class="btn btn-edit"   onclick="openEditModal(' + apt.id + ')">Edit</button>' +
+                '<button class="btn btn-danger" onclick="openDeleteModal(' + apt.id + ')">Delete</button>' +
+            '</div></td>' +
+        '</tr>';
+    }).join("");
+}
+
+// ════════════════════════════════════════════════════════════════
+// FILTER / SEARCH
+// ════════════════════════════════════════════════════════════════
+function filterTable() {
+    var search = document.getElementById("searchInput").value.toLowerCase();
+    var status = document.getElementById("statusFilter").value.toUpperCase();
+
+    var filtered = allAppointments.filter(function(apt) {
+        var matchSearch =
+            String(apt.id).includes(search) ||
+            String(apt.patientId || "").includes(search) ||
+            String(apt.doctorId  || "").includes(search) ||
+            (apt.reason || "").toLowerCase().includes(search);
+
+        var matchStatus = !status || (apt.status || "").toUpperCase() === status;
+        return matchSearch && matchStatus;
+    });
+
+    renderTable(filtered);
+}
+
+// ════════════════════════════════════════════════════════════════
+// POPULATE DROPDOWNS
+// ════════════════════════════════════════════════════════════════
+
+// GET /api/doctors  →  DOCTOR-SERVICE DoctorController.getAllDoctors()
+// Returns List<DoctorResponseDTO>: { doctorId, name, specialization, department:{ departmentName } }
+async function populateDoctors(selectedId) {
+    var sel = document.getElementById("fieldDoctorId");
+    sel.innerHTML = '<option value="">Loading doctors…</option>';
+
+    try {
+        var res = await fetch(DOCTORS_URL, fetchOptions("GET"));
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        var doctors = await res.json();
+
+        sel.innerHTML = '<option value="">— Select Doctor —</option>';
+        doctors.forEach(function(doc) {
+            var dept  = doc.department ? doc.department.departmentName : "";
+            var label = doc.name + " — " + doc.specialization + (dept ? " (" + dept + ")" : "");
+            var opt   = document.createElement("option");
+            opt.value       = doc.doctorId;   // @JsonProperty("doctorId") on getId()
+            opt.textContent = label;
+            if (selectedId && doc.doctorId == selectedId) opt.selected = true;
+            sel.appendChild(opt);
+        });
+    } catch(err) {
+        console.error("Doctors load error:", err);
+        sel.innerHTML = '<option value="">Could not load doctors</option>';
+    }
+}
+
+// GET /api/schedules  →  SCHEDULE-SERVICE ScheduleController.getAllSchedules()
+// Returns List<ScheduleDTO>: { id, doctorId, date, startTime, endTime, doctor:{ name } }
+async function populateSchedules(selectedId) {
+    var sel = document.getElementById("fieldScheduleId");
+    sel.innerHTML = '<option value="">Loading schedules…</option>';
+
+    try {
+        var res = await fetch(SCHEDULES_URL, fetchOptions("GET"));
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        var schedules = await res.json();
+
+        sel.innerHTML = '<option value="">— Select Schedule —</option>';
+        schedules.forEach(function(sch) {
+            var doctorName = (sch.doctor && sch.doctor.name) ? sch.doctor.name : ("Doctor #" + sch.doctorId);
+            var label = sch.date + "  " + sch.startTime + " – " + sch.endTime + "  (" + doctorName + ")";
+            var opt = document.createElement("option");
+            opt.value       = sch.id;
+            opt.textContent = label;
+            if (selectedId && sch.id == selectedId) opt.selected = true;
+            sel.appendChild(opt);
+        });
+    } catch(err) {
+        console.error("Schedules load error:", err);
+        sel.innerHTML = '<option value="">Could not load schedules</option>';
+    }
+}
+
+// ════════════════════════════════════════════════════════════════
+// CREATE MODAL
+// ════════════════════════════════════════════════════════════════
+async function openCreateModal() {
+    editingId = null;
+    document.getElementById("modalTitle").textContent     = "Book Appointment";
+    document.getElementById("modalSubmitBtn").textContent = "Book";
+
+    document.getElementById("fieldPatientId").value       = "";
+    document.getElementById("fieldAppointmentTime").value = "";
+    document.getElementById("fieldReason").value          = "";
+    document.getElementById("fieldStatus").value          = "PENDING";
+
+    document.getElementById("appointmentModal").classList.add("open");
+    await Promise.all([ populateDoctors(null), populateSchedules(null) ]);
+}
+
+// ════════════════════════════════════════════════════════════════
+// EDIT MODAL
+// ════════════════════════════════════════════════════════════════
+async function openEditModal(id) {
+    var apt = allAppointments.find(function(a){ return a.id === id; });
+    if (!apt) return;
+
+    editingId = id;
+    document.getElementById("modalTitle").textContent     = "Edit Appointment #APT-" + id;
+    document.getElementById("modalSubmitBtn").textContent = "Save Changes";
+
+    document.getElementById("fieldPatientId").value       = apt.patientId  || "";
+    document.getElementById("fieldAppointmentTime").value = toDatetimeLocal(apt.appointmentTime);
+    document.getElementById("fieldReason").value          = apt.reason     || "";
+    document.getElementById("fieldStatus").value          = apt.status     || "PENDING";
+
+    document.getElementById("appointmentModal").classList.add("open");
+    await Promise.all([ populateDoctors(apt.doctorId), populateSchedules(apt.scheduleId) ]);
+}
+
+function closeModal() {
+    document.getElementById("appointmentModal").classList.remove("open");
+    editingId = null;
+}
+
+// ════════════════════════════════════════════════════════════════
+// SUBMIT  CREATE → POST /appointment/book
+//         UPDATE → PUT  /appointment/{id}
+// ════════════════════════════════════════════════════════════════
+async function submitAppointment() {
+    var patientId       = parseInt(document.getElementById("fieldPatientId").value);
+    var doctorId        = parseInt(document.getElementById("fieldDoctorId").value);
+    var scheduleId      = parseInt(document.getElementById("fieldScheduleId").value);
+    var appointmentTime = document.getElementById("fieldAppointmentTime").value;  // "YYYY-MM-DDTHH:mm"
+    var reason          = document.getElementById("fieldReason").value.trim();
+    var status          = document.getElementById("fieldStatus").value;
+
+    if (!patientId || isNaN(patientId)) { showToast("Please enter a valid Patient ID.", true); return; }
+    if (!doctorId)                       { showToast("Please select a Doctor.",          true); return; }
+    if (!scheduleId)                     { showToast("Please select a Schedule.",        true); return; }
+    if (!appointmentTime)                { showToast("Please select Appointment Date & Time.", true); return; }
+
+    var payload = { patientId: patientId, doctorId: doctorId, scheduleId: scheduleId,
+                    appointmentTime: appointmentTime, reason: reason, status: status };
+
+    var btn = document.getElementById("modalSubmitBtn");
+    btn.disabled    = true;
+    btn.textContent = "Saving…";
+
+    try {
+        var res;
+        if (editingId === null) {
+            // CREATE  →  POST /appointment/book
+            res = await fetch(APT_URL + "/book", fetchOptions("POST", payload));
+        } else {
+            // UPDATE  →  PUT /appointment/{id}
+            res = await fetch(APT_URL + "/" + editingId, fetchOptions("PUT", payload));
+        }
+
+        if (res.status === 401) { showToast("Unauthorized. Please log in.", true); return; }
+        if (!res.ok) {
+            var msg = await res.text();
+            throw new Error(msg || "HTTP " + res.status);
+        }
+
+        showToast(editingId ? "Appointment updated!" : "Appointment booked!");
+        closeModal();
+        await loadAppointments();
+
+    } catch(err) {
+        console.error(err);
+        showToast("Error: " + err.message, true);
+    } finally {
+        btn.disabled    = false;
+        btn.textContent = editingId ? "Save Changes" : "Book";
+    }
+}
+
+// ════════════════════════════════════════════════════════════════
+// DELETE  →  DELETE /appointment/{id}
+// ════════════════════════════════════════════════════════════════
+function openDeleteModal(id) {
+    deletingId = id;
+    document.getElementById("deleteIdLabel").textContent = "#APT-" + id;
+    document.getElementById("deleteModal").classList.add("open");
+}
+
+function closeDeleteModal() {
+    document.getElementById("deleteModal").classList.remove("open");
+    deletingId = null;
+}
+
+async function confirmDelete() {
+    if (!deletingId) return;
+
+    try {
+        var res = await fetch(APT_URL + "/" + deletingId, fetchOptions("DELETE"));
+
+        if (res.status === 401) { showToast("Unauthorized.", true); return; }
+        // Your controller returns 204 No Content on success
+        if (res.status !== 204 && !res.ok) throw new Error("HTTP " + res.status);
+
+        showToast("Appointment deleted.");
+        closeDeleteModal();
+        await loadAppointments();
+
+    } catch(err) {
+        console.error(err);
+        showToast("Delete failed: " + err.message, true);
+    }
+}
+
+// ════════════════════════════════════════════════════════════════
+// CLOSE MODALS ON BACKDROP CLICK + INIT
+// ════════════════════════════════════════════════════════════════
+document.getElementById("appointmentModal").addEventListener("click", function(e){
+    if (e.target === e.currentTarget) closeModal();
+});
+document.getElementById("deleteModal").addEventListener("click", function(e){
+    if (e.target === e.currentTarget) closeDeleteModal();
+});
+
+document.addEventListener("DOMContentLoaded", function(){
+    loadAppointments();
+});
+</script>
+
+</body>
 </html>

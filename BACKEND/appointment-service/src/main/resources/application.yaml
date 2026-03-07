@@ -3,12 +3,12 @@ server:
 
 spring:
   application:
-    name: appointment_service
+    name: appointment-service
 
   datasource:
     url: jdbc:mysql://localhost:3306/doctor_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
     username: root
-    password: "20001120rsa"
+    password: 20001120rsa
 
   jpa:
     hibernate:
@@ -23,6 +23,4 @@ eureka:
     service-url:
       defaultZone: http://localhost:8761/eureka/
 
-logging:
-  level:
-    com.hospital.appointment_service.client: DEBUG
+
